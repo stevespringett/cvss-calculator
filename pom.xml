@@ -43,6 +43,18 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git@github.com:stevespringett/cvss-calculator.git</connection>
+        <url>https://github.com/stevespringett/cvss-calculator.git</url>
+        <developerConnection>scm:gitgit@github.com:stevespringett/cvss-calculator.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/stevespringett/cvss-calculator/issues</url>
+    </issueManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
