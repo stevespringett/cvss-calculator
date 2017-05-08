@@ -147,4 +147,9 @@ public class CvssV2 implements Cvss {
                 "I:" + i.shorthand + "/" +
                 "A:" + a.shorthand + ")";
     }
+
+    @Override
+    public String toString() {
+        return getVector();
+    }
 }
