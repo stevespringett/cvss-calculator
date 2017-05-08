@@ -46,7 +46,7 @@
     <scm>
         <connection>scm:git:git@github.com:stevespringett/cvss-calculator.git</connection>
         <url>https://github.com/stevespringett/cvss-calculator.git</url>
-        <developerConnection>scm:gitgit@github.com:stevespringett/cvss-calculator.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:stevespringett/cvss-calculator.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
