@@ -55,6 +55,11 @@
         <url>https://github.com/stevespringett/cvss-calculator/issues</url>
     </issueManagement>
 
+    <ciManagement>
+        <system>travis-ci</system>
+        <url>https://travis-ci.org/stevespringett/cvss-calculator</url>
+    </ciManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
