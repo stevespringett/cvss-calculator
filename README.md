@@ -29,14 +29,13 @@ Score score = cvssV3.calculateScore();
 
 Maven Usage
 -------------------
-CVSS Calculator is currently pre-release software but snapshot builds
-can be used and are available on the Maven Central Repository.
+CVSS Calculator is available in the Maven Central Repository.
 
 ```xml
 <dependency>
     <groupId>us.springett</groupId>
     <artifactId>cvss-calculator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
