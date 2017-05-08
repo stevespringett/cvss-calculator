@@ -60,7 +60,7 @@ public class CvssV2 implements Cvss {
         return this;
     }
 
-    enum AttackVector {
+    public enum AttackVector {
         NETWORK(1.0, "N"),
         ADJACENT(0.646, "A"),
         LOCAL(0.395, "L");
@@ -73,7 +73,7 @@ public class CvssV2 implements Cvss {
         }
     }
 
-    enum AttackComplexity {
+    public enum AttackComplexity {
         LOW(0.71, "L"),
         MEDIUM(0.61, "M"),
         HIGH(0.35, "H");
@@ -86,7 +86,7 @@ public class CvssV2 implements Cvss {
         }
     }
 
-    enum Authentication  {
+    public enum Authentication  {
         NONE(0.704, "N"),
         SINGLE(0.56, "S"),
         MULTIPLE(0.45, "M");
@@ -99,7 +99,7 @@ public class CvssV2 implements Cvss {
         }
     }
 
-    enum CIA {
+    public enum CIA {
         NONE(0.0, "N"),
         PARTIAL(0.275, "P"),
         COMPLETE(0.660, "C");

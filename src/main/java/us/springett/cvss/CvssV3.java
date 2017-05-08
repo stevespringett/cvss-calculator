@@ -75,7 +75,7 @@ public class CvssV3 implements Cvss {
         return this;
     }
 
-    enum AttackVector {
+    public enum AttackVector {
         NETWORK(0.85, "N"),
         ADJACENT(0.62, "A"),
         LOCAL(0.55, "L"),
@@ -89,7 +89,7 @@ public class CvssV3 implements Cvss {
         }
     }
 
-    enum AttackComplexity {
+    public enum AttackComplexity {
         LOW(0.77, "L"),
         HIGH(0.44, "H");
 
@@ -101,7 +101,7 @@ public class CvssV3 implements Cvss {
         }
     }
 
-    enum PrivilegesRequired  {
+    public enum PrivilegesRequired  {
         NONE(0.85, 0.85, "N"),
         LOW(0.62, 0.68, "L"),
         HIGH(0.27, 0.5, "H");
@@ -116,7 +116,7 @@ public class CvssV3 implements Cvss {
         }
     }
 
-    enum UserInteraction {
+    public enum UserInteraction {
         NONE(0.85, "N"),
         REQUIRED(0.62, "R");
 
@@ -128,7 +128,7 @@ public class CvssV3 implements Cvss {
         }
     }
 
-    enum Scope {
+    public enum Scope {
         UNCHANGED(6.42, "U"),
         CHANGED(7.52, "C");
 
@@ -140,7 +140,7 @@ public class CvssV3 implements Cvss {
         }
     }
 
-    enum CIA {
+    public enum CIA {
         NONE(0, "N"),
         LOW(0.22, "L"),
         HIGH(0.56, "H");
