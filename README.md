@@ -14,6 +14,7 @@ Compiling
 Usage Example
 -------------------
 ```java
+// Performs a new calculation using CVSSv3
 CvssV3 cvssV3 = new CvssV3()
     .attackVector(AttackVector.NETWORK)
     .attackComplexity(AttackComplexity.LOW)
@@ -26,6 +27,11 @@ CvssV3 cvssV3 = new CvssV3()
 
 Score score = cvssV3.calculateScore();
 ```
+```java
+// Parses an existing CVSS v2 or v3 vector
+Cvss cvss = Cvss.fromVector(vector);
+Score score = cvss.calculateScore();
+```
 
 Maven Usage
 -------------------
@@ -35,7 +41,7 @@ CVSS Calculator is available in the Maven Central Repository.
 <dependency>
     <groupId>us.springett</groupId>
     <artifactId>cvss-calculator</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
