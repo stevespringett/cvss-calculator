@@ -87,6 +87,14 @@ public class CvssV3 implements Cvss {
             this.weight = weight;
             this.shorthand = shorthand;
         }
+        public static AttackVector fromString(String text) {
+            for (AttackVector e : AttackVector.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
     }
 
     public enum AttackComplexity {
@@ -98,6 +106,14 @@ public class CvssV3 implements Cvss {
         AttackComplexity(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
+        }
+        public static AttackComplexity fromString(String text) {
+            for (AttackComplexity e : AttackComplexity.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
         }
     }
 
@@ -114,6 +130,14 @@ public class CvssV3 implements Cvss {
             this.scopeChangedWeight = scopeChangedWeight;
             this.shorthand = shorthand;
         }
+        public static PrivilegesRequired fromString(String text) {
+            for (PrivilegesRequired e : PrivilegesRequired.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
     }
 
     public enum UserInteraction {
@@ -125,6 +149,14 @@ public class CvssV3 implements Cvss {
         UserInteraction(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
+        }
+        public static UserInteraction fromString(String text) {
+            for (UserInteraction e : UserInteraction.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
         }
     }
 
@@ -138,6 +170,14 @@ public class CvssV3 implements Cvss {
             this.weight = weight;
             this.shorthand = shorthand;
         }
+        public static Scope fromString(String text) {
+            for (Scope e : Scope.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
     }
 
     public enum CIA {
@@ -150,6 +190,14 @@ public class CvssV3 implements Cvss {
         CIA(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
+        }
+        public static CIA fromString(String text) {
+            for (CIA e : CIA.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
         }
     }
 

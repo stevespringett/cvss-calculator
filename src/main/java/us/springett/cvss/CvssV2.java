@@ -71,6 +71,14 @@ public class CvssV2 implements Cvss {
             this.weight = weight;
             this.shorthand = shorthand;
         }
+        public static AttackVector fromString(String text) {
+            for (AttackVector e : AttackVector.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
     }
 
     public enum AttackComplexity {
@@ -83,6 +91,14 @@ public class CvssV2 implements Cvss {
         AttackComplexity(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
+        }
+        public static AttackComplexity fromString(String text) {
+            for (AttackComplexity e : AttackComplexity.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
         }
     }
 
@@ -97,6 +113,14 @@ public class CvssV2 implements Cvss {
             this.weight = weight;
             this.shorthand = shorthand;
         }
+        public static Authentication fromString(String text) {
+            for (Authentication e : Authentication.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
     }
 
     public enum CIA {
@@ -109,6 +133,14 @@ public class CvssV2 implements Cvss {
         CIA(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
+        }
+        public static CIA fromString(String text) {
+            for (CIA e : CIA.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
         }
     }
 
