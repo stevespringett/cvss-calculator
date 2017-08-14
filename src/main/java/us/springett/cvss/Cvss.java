@@ -54,6 +54,9 @@ public interface Cvss {
      * @since 1.1.0
      */
     static Cvss fromVector(String vector) {
+        if (vector == null) {
+            return null;
+        }
         Matcher v2Matcher = CVSSv2_PATTERN.matcher(vector);
         Matcher v3Matcher = CVSSv3_PATTERN.matcher(vector);
 
