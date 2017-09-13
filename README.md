@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/stevespringett/cvss-calculator.svg?branch=master)](https://travis-ci.org/stevespringett/cvss-calculator)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb8fdf4b23df4ac993cadbbeb14c743c)](https://www.codacy.com/app/stevespringett/cvss-calculator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=stevespringett/cvss-calculator&amp;utm_campaign=Badge_Grade)
+[![License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)][Apache 2.0]
 
 CVSS Calculator
 =====================================
