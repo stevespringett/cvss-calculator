@@ -26,11 +26,17 @@ public class Score {
     private double baseScore;
     private double impactSubScore;
     private double exploitabilitySubScore;
+    private double temporalScore;
 
     public Score(double baseScore, double impactSubScore, double exploitabilitySubScore) {
+        this(baseScore, impactSubScore, exploitabilitySubScore, -1);
+    }
+
+    public Score(double baseScore, double impactSubScore, double exploitabilitySubScore, double temporalScore) {
         this.baseScore = baseScore;
         this.impactSubScore = impactSubScore;
         this.exploitabilitySubScore = exploitabilitySubScore;
+        this.temporalScore = temporalScore;
     }
 
     /**
@@ -55,5 +61,13 @@ public class Score {
      */
     public double getExploitabilitySubScore() {
         return exploitabilitySubScore;
+    }
+
+    /**
+     * Returns the temporal subscore.
+     * @return the temporal subscore
+     */
+    public double getTemporalScore() {
+        return temporalScore;
     }
 }
