@@ -213,4 +213,118 @@ public class CvssV3Test {
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H", cvssV3.getVector());
     }
+
+
+    @Test
+    public void temporalExploitabilityTest() {
+        cvssV3.exploitability(CvssV3.Exploitability.NOT_DEFINED);
+        cvssV3.remediationLevel(CvssV3.RemediationLevel.NOT_DEFINED);
+        cvssV3.reportConfidence(CvssV3.ReportConfidence.NOT_DEFINED);
+        Score score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.2, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:X", cvssV3.getVector());
+
+        cvssV3.exploitability(CvssV3.Exploitability.UNPROVEN);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(6.6, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:U/RL:X/RC:X", cvssV3.getVector());
+
+        cvssV3.exploitability(CvssV3.Exploitability.POC);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(6.8, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:P/RL:X/RC:X", cvssV3.getVector());
+
+        cvssV3.exploitability(CvssV3.Exploitability.FUNCTIONAL);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.0, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:F/RL:X/RC:X", cvssV3.getVector());
+
+        cvssV3.exploitability(CvssV3.Exploitability.HIGH);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.2, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:H/RL:X/RC:X", cvssV3.getVector());
+    }
+
+    @Test
+    public void temporalRemediationLevelTest() {
+        cvssV3.exploitability(CvssV3.Exploitability.NOT_DEFINED);
+        cvssV3.reportConfidence(CvssV3.ReportConfidence.NOT_DEFINED);
+
+        cvssV3.remediationLevel(CvssV3.RemediationLevel.OFFICIAL);
+        Score score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(6.9, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:O/RC:X", cvssV3.getVector());
+
+        cvssV3.remediationLevel(CvssV3.RemediationLevel.TEMPORARY);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.0, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:T/RC:X", cvssV3.getVector());
+
+        cvssV3.remediationLevel(CvssV3.RemediationLevel.WORKAROUND);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.0, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:W/RC:X", cvssV3.getVector());
+
+        cvssV3.remediationLevel(CvssV3.RemediationLevel.UNAVAILABLE);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.2, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:U/RC:X", cvssV3.getVector());
+    }
+
+    @Test
+    public void temporalReportConfidenceTest() {
+        cvssV3.exploitability(CvssV3.Exploitability.NOT_DEFINED);
+        cvssV3.remediationLevel(CvssV3.RemediationLevel.NOT_DEFINED);
+
+        cvssV3.reportConfidence(CvssV3.ReportConfidence.UNKNOWN);
+        Score score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(6.7, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:U", cvssV3.getVector());
+
+        cvssV3.reportConfidence(CvssV3.ReportConfidence.REASONABLE);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.0, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:R", cvssV3.getVector());
+
+        cvssV3.reportConfidence(CvssV3.ReportConfidence.CONFIRMED);
+        score = cvssV3.calculateScore();
+        Assert.assertEquals(7.2, score.getBaseScore(), 0);
+        Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
+        Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
+        Assert.assertEquals(7.2, score.getTemporalScore(), 0);
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C", cvssV3.getVector());
+    }
 }

@@ -23,6 +23,7 @@ package us.springett.cvss;
  */
 public class CvssV3 implements Cvss {
 
+    private static final double NO_VALUE = -1.0;
     private static final double exploitabilityCoefficient = 8.22;
     private static final double scopeCoefficient = 1.08;
 
@@ -31,6 +32,9 @@ public class CvssV3 implements Cvss {
     private PrivilegesRequired pr;
     private UserInteraction ui;
     private Scope s;
+    private Exploitability e;
+    private RemediationLevel rl;
+    private ReportConfidence rc;
     private CIA c;
     private CIA i;
     private CIA a;
@@ -72,6 +76,21 @@ public class CvssV3 implements Cvss {
 
     public CvssV3 availability(CIA a) {
         this.a = a;
+        return this;
+    }
+
+    public CvssV3 exploitability(Exploitability e) {
+        this.e = e;
+        return this;
+    }
+
+    public CvssV3 remediationLevel(RemediationLevel rl) {
+        this.rl = rl;
+        return this;
+    }
+
+    public CvssV3 reportConfidence(ReportConfidence rc) {
+        this.rc = rc;
         return this;
     }
 
@@ -180,6 +199,76 @@ public class CvssV3 implements Cvss {
         }
     }
 
+    // Temporal
+    public enum Exploitability {
+        UNPROVEN(0.91, "U"),
+        POC(0.94, "P"),
+        FUNCTIONAL(0.97, "F"),
+        HIGH(1.0, "H"),
+        NOT_DEFINED(1.0, "X"),;
+
+        private final double weight;
+        private final String shorthand;
+        Exploitability(double weight, String shorthand) {
+            this.weight = weight;
+            this.shorthand = shorthand;
+        }
+        public static Exploitability fromString(String text) {
+            for (Exploitability e : Exploitability.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
+    }
+
+    public enum RemediationLevel  {
+        UNAVAILABLE(1.0, "U"),
+        WORKAROUND(0.97, "W"),
+        TEMPORARY(0.96, "T"),
+        OFFICIAL(0.95, "O"),
+        NOT_DEFINED(1.0, "X"),;
+
+        private final double weight;
+        private final String shorthand;
+        RemediationLevel (double weight, String shorthand) {
+            this.weight = weight;
+            this.shorthand = shorthand;
+        }
+        public static RemediationLevel fromString(String text) {
+            for (RemediationLevel e : RemediationLevel.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
+    }
+
+    public enum ReportConfidence  {
+        UNKNOWN(0.92, "U"),
+        REASONABLE(0.96, "R"),
+        CONFIRMED(1.0, "C"),
+        NOT_DEFINED(1.0, "X"),;
+
+        private final double weight;
+        private final String shorthand;
+        ReportConfidence (double weight, String shorthand) {
+            this.weight = weight;
+            this.shorthand = shorthand;
+        }
+        public static ReportConfidence fromString(String text) {
+            for (ReportConfidence e : ReportConfidence.values()) {
+                if (e.shorthand.equalsIgnoreCase(text)) {
+                    return e;
+                }
+            }
+            return null;
+        }
+    }
+    // End-Temporal
+
     public enum CIA {
         NONE(0, "N"),
         LOW(0.22, "L"),
@@ -210,6 +299,7 @@ public class CvssV3 implements Cvss {
         final double impactSubScore;
         final double exploitabalitySubScore = exploitabilityCoefficient * av.weight * ac.weight * prWeight * ui.weight;
         final double impactSubScoreMultiplier = (1 - ((1 - c.weight) * (1 - i.weight) * (1 - a.weight)));
+        final double temporalScore;
 
         if (Scope.UNCHANGED == s) {
             impactSubScore = s.weight * impactSubScoreMultiplier;
@@ -226,7 +316,16 @@ public class CvssV3 implements Cvss {
                 baseScore = roundUp1(Math.min((exploitabalitySubScore + impactSubScore) * scopeCoefficient, 10));
             }
         }
-        return new Score(baseScore, roundNearestTenth(impactSubScore), roundNearestTenth(exploitabalitySubScore));
+
+        if (e != null && e.weight != NO_VALUE &&
+                rl != null && rl.weight != NO_VALUE &&
+                rc != null && rc.weight != NO_VALUE) {
+            temporalScore = roundUp1(baseScore * e.weight * rl.weight * rc.weight);
+        } else {
+            temporalScore = NO_VALUE;
+        }
+
+        return new Score(baseScore, roundNearestTenth(impactSubScore), roundNearestTenth(exploitabalitySubScore), temporalScore);
     }
 
     private double roundUp1(double d) {
@@ -249,7 +348,11 @@ public class CvssV3 implements Cvss {
                 "S:" + s.shorthand + "/" +
                 "C:" + c.shorthand + "/" +
                 "I:" + i.shorthand + "/" +
-                "A:" + a.shorthand;
+                "A:" + a.shorthand +
+                ((e != null && rl != null && rc != null) ? (
+                        "/E:" + e.shorthand + "/" +
+                                "RL:" + rl.shorthand + "/" +
+                                "RC:" + rc.shorthand) : "");
     }
 
     @Override
