@@ -27,8 +27,8 @@ import java.util.regex.Pattern;
  */
 public interface Cvss {
 
-    Pattern CVSSv2_PATTERN = Pattern.compile("AV:[NAL]\\/AC:[LMH]\\/A[Uu]:[NSM]\\/C:[NPC]\\/I:[NPC]\\/A:[NPC]");
-    Pattern CVSSv3_PATTERN = Pattern.compile("AV:[NALP]\\/AC:[LH]\\/PR:[NLH]\\/UI:[NR]\\/S:[UC]\\/C:[NLH]\\/I:[NLH]\\/A:[NLH]");
+    Pattern CVSSv2_PATTERN = Pattern.compile("AV:[NAL]\\/AC:[LMH]\\/A[Uu]:[NSM]\\/C:[NPC]\\/I:[NPC]\\/A:[NPC]\\/E:\b(F|H|U|POC|ND)\b\\/RL:\b(W|U|TF|OF|ND)\b\\/RC:\b(C|UR|UC|ND)\b");
+    Pattern CVSSv3_PATTERN = Pattern.compile("AV:[NALP]\\/AC:[LH]\\/PR:[NLH]\\/UI:[NR]\\/S:[UC]\\/C:[NLH]\\/I:[NLH]\\/A:[NLH]\\/E:[F|H|U|P|X]\\/RL:[W|U|T|O|X]\\/RC:[C|R|U|X]");
 
     /**
      * Calculates a CVSS score.
@@ -71,6 +71,9 @@ public interface Cvss {
             cvssV2.confidentiality(CvssV2.CIA.fromString(st.nextElement().toString().split(":")[1]));
             cvssV2.integrity(CvssV2.CIA.fromString(st.nextElement().toString().split(":")[1]));
             cvssV2.availability(CvssV2.CIA.fromString(st.nextElement().toString().split(":")[1]));
+            cvssV2.exploitability(CvssV2.Exploitability.fromString(st.nextElement().toString().split(":")[1]));
+            cvssV2.remediationLevel(CvssV2.RemediationLevel.fromString(st.nextElement().toString().split(":")[1]));
+            cvssV2.reportConfidence(CvssV2.ReportConfidence.fromString(st.nextElement().toString().split(":")[1]));
             return cvssV2;
         } else if (v3Matcher.find()) {
             // Found a valid CVSSv3 vector
@@ -85,6 +88,9 @@ public interface Cvss {
             cvssV3.confidentiality(CvssV3.CIA.fromString(st.nextElement().toString().split(":")[1]));
             cvssV3.integrity(CvssV3.CIA.fromString(st.nextElement().toString().split(":")[1]));
             cvssV3.availability(CvssV3.CIA.fromString(st.nextElement().toString().split(":")[1]));
+            cvssV3.exploitability(CvssV3.Exploitability.fromString(st.nextElement().toString().split(":")[1]));
+            cvssV3.remediationLevel(CvssV3.RemediationLevel.fromString(st.nextElement().toString().split(":")[1]));
+            cvssV3.reportConfidence(CvssV3.ReportConfidence.fromString(st.nextElement().toString().split(":")[1]));
             return cvssV3;
         }
         return null;
