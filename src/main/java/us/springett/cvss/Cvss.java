@@ -71,6 +71,7 @@ public interface Cvss {
         Matcher v3TemporalMatcher = CVSSv3_PATTERN_TEMPORAL.matcher(vector);
 
         if (v2TemporalMatcher.find()) {
+            // Found a valid CVSSv2 vector with temporal values
             String matchedVector = v2TemporalMatcher.group(0);
             StringTokenizer st = new StringTokenizer(matchedVector, "/");
             CvssV2 cvssV2 = getCvssV2BaseVector(st);
@@ -79,7 +80,7 @@ public interface Cvss {
             cvssV2.reportConfidence(CvssV2.ReportConfidence.fromString(st.nextElement().toString().split(":")[1]));
             return cvssV2;
         } else if (v2Matcher.find()) {
-            // Found a valid CVSSv2 vector with temporal values
+            // Found a valid CVSSv2 vector
             String matchedVector = v2Matcher.group(0);
             StringTokenizer st = new StringTokenizer(matchedVector, "/");
             return getCvssV2BaseVector(st);
