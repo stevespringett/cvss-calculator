@@ -327,4 +327,19 @@ public class CvssV3Test {
         Assert.assertEquals(7.2, score.getTemporalScore(), 0);
         Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C", cvssV3.getVector());
     }
+
+    @Test
+    public void testRegexPattern() {
+        // Without temporal vector elements
+        String cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H";
+        Cvss cvssV3 = Cvss.fromVector(cvss3Vector);
+        Assert.assertNotNull(cvssV3);
+        Assert.assertEquals(cvss3Vector, cvssV3.getVector());
+
+        // With temporal vector elements
+        cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C";
+        cvssV3 = Cvss.fromVector(cvss3Vector);
+        Assert.assertNotNull(cvssV3);
+        Assert.assertEquals(cvss3Vector, cvssV3.getVector());
+    }
 }
