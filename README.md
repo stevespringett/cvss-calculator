@@ -43,7 +43,7 @@ CVSS Calculator is available in the Maven Central Repository.
 <dependency>
     <groupId>us.springett</groupId>
     <artifactId>cvss-calculator</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
 </dependency>
 ```
 
