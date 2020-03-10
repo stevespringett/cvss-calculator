@@ -282,6 +282,42 @@ public class CvssV2 implements Cvss {
                         "RC:" + rc.shorthand + ")") : ")");
     }
 
+    public AttackVector getAv() {
+        return av;
+    }
+
+    public AttackComplexity getAc() {
+        return ac;
+    }
+
+    public Authentication getAu() {
+        return au;
+    }
+
+    public Exploitability getE() {
+        return e;
+    }
+
+    public RemediationLevel getRl() {
+        return rl;
+    }
+
+    public ReportConfidence getRc() {
+        return rc;
+    }
+
+    public CIA getC() {
+        return c;
+    }
+
+    public CIA getI() {
+        return i;
+    }
+
+    public CIA getA() {
+        return a;
+    }
+
     @Override
     public String toString() {
         return getVector();
