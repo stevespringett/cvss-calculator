@@ -23,21 +23,21 @@ package us.springett.cvss;
  */
 public class CvssV3 implements Cvss {
 
-    private static final double NO_VALUE = -1.0;
-    private static final double exploitabilityCoefficient = 8.22;
-    private static final double scopeCoefficient = 1.08;
+    protected static final double NO_VALUE = -1.0;
+    protected static final double exploitabilityCoefficient = 8.22;
+    protected static final double scopeCoefficient = 1.08;
 
-    private AttackVector av;
-    private AttackComplexity ac;
-    private PrivilegesRequired pr;
-    private UserInteraction ui;
-    private Scope s;
-    private Exploitability e;
-    private RemediationLevel rl;
-    private ReportConfidence rc;
-    private CIA c;
-    private CIA i;
-    private CIA a;
+    protected AttackVector av;
+    protected AttackComplexity ac;
+    protected PrivilegesRequired pr;
+    protected UserInteraction ui;
+    protected Scope s;
+    protected Exploitability e;
+    protected RemediationLevel rl;
+    protected ReportConfidence rc;
+    protected CIA c;
+    protected CIA i;
+    protected CIA a;
 
     public CvssV3 attackVector(AttackVector av) {
         this.av = av;
@@ -100,8 +100,8 @@ public class CvssV3 implements Cvss {
         LOCAL(0.55, "L"),
         PHYSICAL(0.2, "P");
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         AttackVector(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -120,8 +120,8 @@ public class CvssV3 implements Cvss {
         LOW(0.77, "L"),
         HIGH(0.44, "H");
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         AttackComplexity(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -141,9 +141,9 @@ public class CvssV3 implements Cvss {
         LOW(0.62, 0.68, "L"),
         HIGH(0.27, 0.5, "H");
 
-        private final double weight;
-        private final double scopeChangedWeight;
-        private final String shorthand;
+        protected final double weight;
+        protected final double scopeChangedWeight;
+        protected final String shorthand;
         PrivilegesRequired(double weight, double scopeChangedWeight, String shorthand) {
             this.weight = weight;
             this.scopeChangedWeight = scopeChangedWeight;
@@ -163,8 +163,8 @@ public class CvssV3 implements Cvss {
         NONE(0.85, "N"),
         REQUIRED(0.62, "R");
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         UserInteraction(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -183,8 +183,8 @@ public class CvssV3 implements Cvss {
         UNCHANGED(6.42, "U"),
         CHANGED(7.52, "C");
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         Scope(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -207,8 +207,8 @@ public class CvssV3 implements Cvss {
         HIGH(1.0, "H"),
         NOT_DEFINED(1.0, "X"),;
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         Exploitability(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -230,8 +230,8 @@ public class CvssV3 implements Cvss {
         OFFICIAL(0.95, "O"),
         NOT_DEFINED(1.0, "X"),;
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         RemediationLevel (double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -252,8 +252,8 @@ public class CvssV3 implements Cvss {
         CONFIRMED(1.0, "C"),
         NOT_DEFINED(1.0, "X"),;
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         ReportConfidence (double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -274,8 +274,8 @@ public class CvssV3 implements Cvss {
         LOW(0.22, "L"),
         HIGH(0.56, "H");
 
-        private final double weight;
-        private final String shorthand;
+        protected final double weight;
+        protected final String shorthand;
         CIA(double weight, String shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
@@ -332,7 +332,7 @@ public class CvssV3 implements Cvss {
         return Math.ceil(d * 10) / 10;
     }
 
-    private double roundNearestTenth(double d) {
+    protected double roundNearestTenth(double d) {
         return Math.round(d * 10.0) / 10.0;
     }
 

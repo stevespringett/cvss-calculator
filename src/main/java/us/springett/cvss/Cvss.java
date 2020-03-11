@@ -88,7 +88,12 @@ public interface Cvss {
             // Found a valid CVSSv3 vector with temporal values
             String matchedVector = v3TemporalMatcher.group(0);
             StringTokenizer st = new StringTokenizer(matchedVector, "/");
-            CvssV3 cvssV3 = getCvssV3BaseVector(st);
+            CvssV3 cvssV3;
+            if (vector.startsWith("CVSS:3.0")) {
+                cvssV3=getCvssV3BaseVector(st);
+            } else {
+                cvssV3=getCvssV3_1BaseVector(st);
+            }
             cvssV3.exploitability(CvssV3.Exploitability.fromString(st.nextElement().toString().split(":")[1]));
             cvssV3.remediationLevel(CvssV3.RemediationLevel.fromString(st.nextElement().toString().split(":")[1]));
             cvssV3.reportConfidence(CvssV3.ReportConfidence.fromString(st.nextElement().toString().split(":")[1]));
@@ -97,7 +102,12 @@ public interface Cvss {
             // Found a valid CVSSv3 vector
             String matchedVector = v3Matcher.group(0);
             StringTokenizer st = new StringTokenizer(matchedVector, "/");
-            return getCvssV3BaseVector(st);
+
+            if (vector.startsWith("CVSS:3.0")) {
+                return getCvssV3BaseVector(st);
+            } else {
+                return getCvssV3_1BaseVector(st);
+            }
         }
         return null;
     }
@@ -115,6 +125,19 @@ public interface Cvss {
 
     static CvssV3 getCvssV3BaseVector(StringTokenizer st) {
         CvssV3 cvssV3 = new CvssV3();
+        cvssV3.attackVector(CvssV3.AttackVector.fromString(st.nextElement().toString().split(":")[1]));
+        cvssV3.attackComplexity(CvssV3.AttackComplexity.fromString(st.nextElement().toString().split(":")[1]));
+        cvssV3.privilegesRequired(CvssV3.PrivilegesRequired.fromString(st.nextElement().toString().split(":")[1]));
+        cvssV3.userInteraction(CvssV3.UserInteraction.fromString(st.nextElement().toString().split(":")[1]));
+        cvssV3.scope(CvssV3.Scope.fromString(st.nextElement().toString().split(":")[1]));
+        cvssV3.confidentiality(CvssV3.CIA.fromString(st.nextElement().toString().split(":")[1]));
+        cvssV3.integrity(CvssV3.CIA.fromString(st.nextElement().toString().split(":")[1]));
+        cvssV3.availability(CvssV3.CIA.fromString(st.nextElement().toString().split(":")[1]));
+        return cvssV3;
+    }
+
+    static CvssV3_1 getCvssV3_1BaseVector(StringTokenizer st) {
+        CvssV3_1 cvssV3 = new CvssV3_1();
         cvssV3.attackVector(CvssV3.AttackVector.fromString(st.nextElement().toString().split(":")[1]));
         cvssV3.attackComplexity(CvssV3.AttackComplexity.fromString(st.nextElement().toString().split(":")[1]));
         cvssV3.privilegesRequired(CvssV3.PrivilegesRequired.fromString(st.nextElement().toString().split(":")[1]));
