@@ -6,7 +6,7 @@
 CVSS Calculator
 =====================================
 
-CVSS Calculator is a Java library for calculating CVSSv2 and CVSSv3 scores and vectors,
+CVSS Calculator is a Java library for calculating CVSSv2, CVSSv3, and CVSSv3.1 scores and vectors,
 including support for base scores, impact scores, and exploitability scores.
 
 Compiling
@@ -44,7 +44,7 @@ CVSS Calculator is available in the Maven Central Repository.
 <dependency>
     <groupId>us.springett</groupId>
     <artifactId>cvss-calculator</artifactId>
-    <version>1.2.2</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
