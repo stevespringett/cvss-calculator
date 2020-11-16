@@ -23,20 +23,28 @@ package us.springett.cvss;
  */
 public class Score {
 
-    private double baseScore;
-    private double impactSubScore;
-    private double exploitabilitySubScore;
-    private double temporalScore;
+    private final double baseScore;
+    private final double impactSubScore;
+    private final double exploitabilitySubScore;
+    private final double temporalScore;
+    private final double environmentalScore;
+    private final double modifiedImpactSubScore;
 
     public Score(double baseScore, double impactSubScore, double exploitabilitySubScore) {
         this(baseScore, impactSubScore, exploitabilitySubScore, -1);
     }
 
     public Score(double baseScore, double impactSubScore, double exploitabilitySubScore, double temporalScore) {
+        this(baseScore, impactSubScore, exploitabilitySubScore, temporalScore, -1, -1);
+    }
+
+    public Score(double baseScore, double impactSubScore, double exploitabilitySubScore, double temporalScore, double environmentalScore, double modifiedImpactSubScore) {
         this.baseScore = baseScore;
         this.impactSubScore = impactSubScore;
         this.exploitabilitySubScore = exploitabilitySubScore;
         this.temporalScore = temporalScore;
+        this.environmentalScore = environmentalScore;
+        this.modifiedImpactSubScore = modifiedImpactSubScore;
     }
 
     /**
@@ -69,5 +77,21 @@ public class Score {
      */
     public double getTemporalScore() {
         return temporalScore;
+    }
+
+    /**
+     * Returns the environmental score.
+     * @return the environmental score
+     */
+    public double getEnvironmentalScore() {
+        return environmentalScore;
+    }
+
+    /**
+     * Returns the modified impact subscore.
+     * @return the modified impact subscore
+     */
+    public double getModifiedImpactSubScore() {
+        return modifiedImpactSubScore;
     }
 }
