@@ -365,7 +365,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:X/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.Exploitability.NOT_DEFINED, cvssV3_1.getExploitability());
 
         cvssV3_1.exploitability(CvssV3_1.Exploitability.UNPROVEN);
@@ -423,7 +423,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:X/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.RemediationLevel.NOT_DEFINED, cvssV3_1.getRemediationLevel());
 
         cvssV3_1.remediationLevel(CvssV3_1.RemediationLevel.OFFICIAL);
@@ -481,7 +481,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:X/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ReportConfidence.NOT_DEFINED, cvssV3_1.getReportConfidence());
 
         cvssV3_1.reportConfidence(CvssV3_1.ReportConfidence.UNKNOWN);
@@ -529,7 +529,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:X/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ConfidentialityRequirement.NOT_DEFINED, cvssV3_1.getConfidentialityRequirement());
 
         cvssV3_1.confidentialityRequirement(CvssV3_1.ConfidentialityRequirement.LOW);
@@ -576,7 +576,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:X/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.IntegrityRequirement.NOT_DEFINED, cvssV3_1.getIntegrityRequirement());
 
         cvssV3_1.integrityRequirement(CvssV3_1.IntegrityRequirement.LOW);
@@ -623,7 +623,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:X/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.AvailabilityRequirement.NOT_DEFINED, cvssV3_1.getAvailabilityRequirement());
 
         cvssV3_1.availabilityRequirement(CvssV3_1.AvailabilityRequirement.LOW);
@@ -670,7 +670,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:X/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedAttackVector.NOT_DEFINED, cvssV3_1.getModifiedAttackVector());
 
         cvssV3_1.modifiedAttackVector(CvssV3_1.ModifiedAttackVector.NETWORK);
@@ -728,7 +728,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:X/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedAttackComplexity.NOT_DEFINED, cvssV3_1.getModifiedAttackComplexity());
 
         cvssV3_1.modifiedAttackComplexity(CvssV3_1.ModifiedAttackComplexity.LOW);
@@ -764,7 +764,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:X/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MUI:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedPrivilegesRequired.NOT_DEFINED, cvssV3_1.getModifiedPrivilegesRequired());
 
         cvssV3_1.modifiedPrivilegesRequired(CvssV3_1.ModifiedPrivilegesRequired.NONE);
@@ -811,7 +811,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:X/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MS:U/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedUserInteraction.NOT_DEFINED, cvssV3_1.getModifiedUserInteraction());
 
         cvssV3_1.modifiedUserInteraction(CvssV3_1.ModifiedUserInteraction.NONE);
@@ -847,7 +847,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:X/MC:N/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MC:N/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedScope.NOT_DEFINED, cvssV3_1.getModifiedScope());
 
         cvssV3_1.modifiedScope(CvssV3_1.ModifiedScope.UNCHANGED);
@@ -883,7 +883,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:X/MI:N/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MI:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedCIA.NOT_DEFINED, cvssV3_1.getModifiedConfidentialityImpact());
 
         cvssV3_1.modifiedConfidentialityImpact(CvssV3_1.ModifiedCIA.NONE);
@@ -930,7 +930,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:X/MA:N", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MA:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedCIA.NOT_DEFINED, cvssV3_1.getModifiedIntegrityImpact());
 
         cvssV3_1.modifiedIntegrityImpact(CvssV3_1.ModifiedCIA.NONE);
@@ -977,7 +977,7 @@ public class CvssV3_1Test {
         assertEquals(0, score.getTemporalScore(), 0);
         assertEquals(0, score.getEnvironmentalScore(), 0);
         assertEquals(0, score.getModifiedImpactSubScore(), 0);
-        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:X", cvssV3_1.getVector());
+        assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedCIA.NOT_DEFINED, cvssV3_1.getModifiedAvailabilityImpact());
 
         cvssV3_1.modifiedAvailabilityImpact(CvssV3_1.ModifiedCIA.NONE);
@@ -1013,6 +1013,29 @@ public class CvssV3_1Test {
         assertEquals(null, "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:H", cvssV3_1.getVector());
         assertEquals(CvssV3_1.ModifiedCIA.HIGH, cvssV3_1.getModifiedAvailabilityImpact());
     }
+    
+    @Test
+    public void combinationTest() {
+        Cvss cvss;
+
+        cvss = Cvss.fromVector("CVSS:3.1/AV:A/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:L");
+        assertEquals(5.9, cvss.calculateScore().getBaseScore(), 0);
+        assertEquals(4.7, cvss.calculateScore().getTemporalScore(), 0);
+        assertEquals(3.7, cvss.calculateScore().getEnvironmentalScore(), 0);
+        assertEquals("CVSS:3.1/AV:A/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:L", cvss.getVector());
+
+        cvss = Cvss.fromVector("CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:U/RL:O/RC:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X");
+        assertEquals(5.8, cvss.calculateScore().getBaseScore(), 0);
+        assertEquals(4.7, cvss.calculateScore().getTemporalScore(), 0);
+        assertEquals(4.7, cvss.calculateScore().getEnvironmentalScore(), 0);
+        assertEquals("CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:U/RL:O/RC:U", cvss.getVector());
+
+        cvss = Cvss.fromVector("CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:X/RL:X/RC:X/CR:M/IR:M/AR:X/MAV:A/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X");
+        assertEquals(6.2, cvss.calculateScore().getBaseScore(), 0);
+        assertEquals(6.2, cvss.calculateScore().getTemporalScore(), 0);
+        assertEquals(5.9, cvss.calculateScore().getEnvironmentalScore(), 0);
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/CR:M/IR:M/MAV:A", cvss.getVector());
+    }
 
     @Test
     public void testRegexPattern() {
@@ -1023,13 +1046,13 @@ public class CvssV3_1Test {
         assertEquals(cvss3Vector, cvssV3.getVector());
 
         // With temporal vector elements
-        cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C";
+        cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:U/RL:U/RC:U";
         cvssV3 = Cvss.fromVector(cvss3Vector);
         Assert.assertNotNull(cvssV3);
         assertEquals(cvss3Vector, cvssV3.getVector());
 
         // With environmental vector elements
-        cvss3Vector = "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C/CR:L/IR:M/AR:L/MAV:P/MAC:H/MPR:N/MUI:R/MS:U/MC:L/MI:L/MA:L";
+        cvss3Vector = "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:U/RL:U/RC:U/CR:L/IR:M/AR:L/MAV:P/MAC:H/MPR:N/MUI:R/MS:U/MC:L/MI:L/MA:L";
         cvssV3 = Cvss.fromVector(cvss3Vector);
         Assert.assertNotNull(cvssV3);
         assertEquals(cvss3Vector, cvssV3.getVector());
