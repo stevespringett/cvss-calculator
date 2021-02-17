@@ -150,7 +150,7 @@ public class CvssV3_1 extends CvssV3 {
 
         // ModifiedPrivilegesRequired (MPR) depends on the value of Modified Scope (MS) or Scope (S) if MS is "X" (not defined)
         final double mprWeight;
-        if(ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)){
+        if (ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)) {
             mprWeight = (mpr.shorthand.equalsIgnoreCase("X")) ? pr.weight : mpr.weight;
         } else {
             mprWeight = (mpr.shorthand.equalsIgnoreCase("X")) ? pr.scopeChangedWeight : mpr.scopeChangedWeight;
@@ -252,6 +252,45 @@ public class CvssV3_1 extends CvssV3 {
         if (ma != null && (!ma.shorthand.equalsIgnoreCase("X"))) vector.add("MA:" + ma.shorthand);
 
         return String.join("/", vector);
+    }
+
+    /**
+     * Return the vector string of the {@link CvssV3_1}.
+     *
+     * @param includeAll includes all NOT_DEFINED fields in the vector string if true, removes them if false
+     * @return the vector string of the {@link CvssV3_1}
+     */
+    public String getVector(final boolean includeAll) {
+        if (includeAll) {
+            List<String> vector = new ArrayList<>();
+            vector.add("CVSS:3.1");
+            if (av != null) vector.add("AV:" + av.shorthand);
+            if (ac != null) vector.add("AC:" + ac.shorthand);
+            if (pr != null) vector.add("PR:" + pr.shorthand);
+            if (ui != null) vector.add("UI:" + ui.shorthand);
+            if (s != null) vector.add("S:" + s.shorthand);
+            if (c != null) vector.add("C:" + c.shorthand);
+            if (i != null) vector.add("I:" + i.shorthand);
+            if (a != null) vector.add("A:" + a.shorthand);
+
+            if (e != null) vector.add("E:" + e.shorthand);
+            if (rl != null) vector.add("RL:" + rl.shorthand);
+            if (rc != null) vector.add("RC:" + rc.shorthand);
+
+            if (cr != null) vector.add("CR:" + cr.shorthand);
+            if (ir != null) vector.add("IR:" + ir.shorthand);
+            if (ar != null) vector.add("AR:" + ar.shorthand);
+            if (mav != null) vector.add("MAV:" + mav.shorthand);
+            if (mac != null) vector.add("MAC:" + mac.shorthand);
+            if (mpr != null) vector.add("MPR:" + mpr.shorthand);
+            if (mui != null) vector.add("MUI:" + mui.shorthand);
+            if (ms != null) vector.add("MS:" + ms.shorthand);
+            if (mc != null) vector.add("MC:" + mc.shorthand);
+            if (mi != null) vector.add("MI:" + mi.shorthand);
+            if (ma != null) vector.add("MA:" + ma.shorthand);
+            return String.join("/", vector);
+        }
+        return getVector();
     }
 
     public ModifiedAttackVector getModifiedAttackVector() {
