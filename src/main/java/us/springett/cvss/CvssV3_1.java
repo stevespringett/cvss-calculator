@@ -1,5 +1,8 @@
 package us.springett.cvss;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CvssV3_1 extends CvssV3 {
 
     /**** Environmental Score Metric Group ****/
@@ -130,64 +133,81 @@ public class CvssV3_1 extends CvssV3 {
      * {@inheritDoc}
      */
     public Score calculateScore() {
+        /* GATHER WEIGHTS FOR ALL CONDITIONAL METRICS */
+
+        // PrivilegesRequired (PR) depends on the value of Scope (S)
         final double prWeight = (Scope.UNCHANGED == s) ? pr.weight : pr.scopeChangedWeight;
+
+        // for metrics that are modified versions of Base Score metrics use the value of the Base Score metric if the
+        // modified version value is "X" ("not defined")
+        final double mavWeight = (mav.shorthand.equalsIgnoreCase("X")) ? av.weight : mav.weight;
+        final double macWeight = (mac.shorthand.equalsIgnoreCase("X")) ? ac.weight : mac.weight;
+        final double muiWeight = (mui.shorthand.equalsIgnoreCase("X")) ? ui.weight : mui.weight;
+        final double mcWeight = (mc.shorthand.equalsIgnoreCase("X")) ? c.weight : mc.weight;
+        final double miWeight = (mi.shorthand.equalsIgnoreCase("X")) ? i.weight : mi.weight;
+        final double maWeight = (ma.shorthand.equalsIgnoreCase("X")) ? a.weight : ma.weight;
+        final double msWeight = (ms.shorthand.equalsIgnoreCase("X")) ? s.weight : ms.weight;
+
+        // ModifiedPrivilegesRequired (MPR) depends on the value of Modified Scope (MS) or Scope (S) if MS is "X" (not defined)
         final double mprWeight;
+        if (ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)) {
+            mprWeight = (mpr.shorthand.equalsIgnoreCase("X")) ? pr.weight : mpr.weight;
+        } else {
+            mprWeight = (mpr.shorthand.equalsIgnoreCase("X")) ? pr.scopeChangedWeight : mpr.scopeChangedWeight;
+        }
 
-        final double exploitabilitySubScore = exploitabilityCoefficient * av.weight * ac.weight * prWeight * ui.weight;
-        final double modifiedExploitabilitySubScore;
-        final double impactSubScoreMultiplier = 1 - ((1 - c.weight) * (1 - i.weight) * (1 - a.weight));
-        final double modifiedImpactSubScoreMultiplier = Math.min(1 - ((1 - cr.weight * mc.weight) * (1 - ir.weight * mi.weight) * (1 - ar.weight * ma.weight)), 0.915);
+        /* CALCULATE THE CVSS SCORE */
 
+        // Base Score
+        final double impactSubScore = (1 - ((1 - c.weight) * (1 - i.weight) * (1 - a.weight)));
+        final double exploitability = exploitabilityCoefficient * av.weight * ac.weight * prWeight * ui.weight;
+        final double impact;
         final double baseScore;
-        double impactSubScore;
-        final double temporalScore;
-        final double environmentalScore;
-        double modifiedImpactSubScore;
 
-        if (Scope.UNCHANGED == s) {
-            impactSubScore = s.weight * impactSubScoreMultiplier;
+        if (s == Scope.UNCHANGED) {
+            impact = s.weight * impactSubScore;
         } else {
-            impactSubScore = s.weight * (impactSubScoreMultiplier - 0.029) - 3.25 * Math.pow(impactSubScoreMultiplier - 0.02, 15);
+            impact = s.weight * (impactSubScore - 0.029) - 3.25 * Math.pow((impactSubScore - 0.02), 15);
         }
 
-        if (impactSubScore <= 0) {
+        if (impact <= 0) {
             baseScore = 0;
-            impactSubScore = 0;
         } else {
-            if (Scope.UNCHANGED == s) {
-                baseScore = roundUp1(Math.min((impactSubScore + exploitabilitySubScore), 10));
+            if (s == Scope.UNCHANGED) {
+                baseScore = roundUp1(Math.min((exploitability + impact), 10));
             } else {
-                baseScore = roundUp1(Math.min((impactSubScore + exploitabilitySubScore) * scopeCoefficient, 10));
+                baseScore = roundUp1(Math.min((scopeCoefficient * (exploitability + impact)), 10));
             }
         }
 
-        temporalScore = roundUp1(baseScore * e.weight * rl.weight * rc.weight);
+        // Temporal Score
+        final double temporalScore = roundUp1(baseScore * e.weight * rl.weight * rc.weight);
 
-        if (ModifiedScope.UNCHANGED == ms) {
-            mprWeight = mpr.weight;
-            modifiedImpactSubScore = ms.weight * modifiedImpactSubScoreMultiplier;
-        } else if (ModifiedScope.CHANGED == ms) {
-            mprWeight = mpr.scopeChangedWeight;
-            modifiedImpactSubScore = ms.weight * (modifiedImpactSubScoreMultiplier - 0.029) - 3.25 * Math.pow((modifiedImpactSubScoreMultiplier * 0.9731 - 0.02), 13);
+        // Environmental Score
+        // - *modifiedExploitability* and *modifiedImpact* recalculate the Base Score exploitability/impact using any
+        //   modified values from the Environmental metrics in place of the values specified in the Base Score (if any
+        //   have been defined - otherwise the Base Score values are used)
+        //   have been defined - otherwise the Base Score values are used)
+        final double modifiedImpactSubScore = Math.min(1 - ((1 - mcWeight * cr.weight) * (1 - miWeight * ir.weight) * (1 - maWeight * ar.weight)), 0.915);
+        final double modifiedExploitability = exploitabilityCoefficient * mavWeight * macWeight * mprWeight * muiWeight;
+        final double modifiedImpact;
+        final double envScore;
+
+        if (ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)) {
+            modifiedImpact = msWeight * modifiedImpactSubScore;
         } else {
-            mprWeight = 0;
-            modifiedImpactSubScore = 0;
+            modifiedImpact = msWeight * (modifiedImpactSubScore - 0.029) - 3.25 * Math.pow((modifiedImpactSubScore * 0.9731 - 0.02), 13);
         }
 
-        modifiedExploitabilitySubScore = exploitabilityCoefficient * mav.weight * mac.weight * mprWeight * mui.weight;
-
-        if (modifiedImpactSubScore <= 0) {
-            environmentalScore = 0;
-            modifiedImpactSubScore = 0;
+        if (modifiedImpact <= 0) {
+            envScore = 0;
+        } else if (ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)) {
+            envScore = roundUp1(roundUp1(Math.min((modifiedImpact + modifiedExploitability), 10)) * e.weight * rl.weight * rc.weight);
         } else {
-            if (ModifiedScope.UNCHANGED == ms) {
-                environmentalScore = roundUp1(roundUp1(Math.min((modifiedImpactSubScore + modifiedExploitabilitySubScore), 10)) * e.weight * rl.weight * rc.weight);
-            } else {
-                environmentalScore = roundUp1(roundUp1(Math.min(1.08 * (modifiedImpactSubScore + modifiedExploitabilitySubScore), 10)) * e.weight * rl.weight * rc.weight);
-            }
+            envScore = roundUp1(roundUp1(Math.min(scopeCoefficient * (modifiedImpact + modifiedExploitability), 10)) * e.weight * rl.weight * rc.weight);
         }
 
-        return new Score(baseScore, roundNearestTenth(impactSubScore), roundNearestTenth(exploitabilitySubScore), temporalScore, environmentalScore, roundNearestTenth(modifiedImpactSubScore));
+        return new Score(roundNearestTenth(baseScore), roundNearestTenth(impact), roundNearestTenth(exploitability), roundNearestTenth(temporalScore), roundNearestTenth(envScore), roundNearestTenth(modifiedImpact));
     }
 
     private double roundUp1(double d) {
@@ -203,30 +223,74 @@ public class CvssV3_1 extends CvssV3 {
      * {@inheritDoc}
      */
     public String getVector() {
-        return "CVSS:3.1/" +
-                "AV:" + av.shorthand + "/" +
-                "AC:" + ac.shorthand + "/" +
-                "PR:" + pr.shorthand + "/" +
-                "UI:" + ui.shorthand + "/" +
-                "S:" + s.shorthand + "/" +
-                "C:" + c.shorthand + "/" +
-                "I:" + i.shorthand + "/" +
-                "A:" + a.shorthand +
-                ((e != null && rl != null && rc != null) ? (
-                        "/E:" + e.shorthand + "/" +
-                                "RL:" + rl.shorthand + "/" +
-                                "RC:" + rc.shorthand) : "") +
-                "/CR:" + cr.shorthand + "/" +
-                "IR:" + ir.shorthand + "/" +
-                "AR:" + ar.shorthand + "/" +
-                "MAV:" + mav.shorthand + "/" +
-                "MAC:" + mac.shorthand + "/" +
-                "MPR:" + mpr.shorthand + "/" +
-                "MUI:" + mui.shorthand + "/" +
-                "MS:" + ms.shorthand + "/" +
-                "MC:" + mc.shorthand + "/" +
-                "MI:" + mi.shorthand + "/" +
-                "MA:" + ma.shorthand;
+        List<String> vector = new ArrayList<>();
+        vector.add("CVSS:3.1");
+
+        if (av != null) vector.add("AV:" + av.shorthand);
+        if (ac != null) vector.add("AC:" + ac.shorthand);
+        if (pr != null) vector.add("PR:" + pr.shorthand);
+        if (ui != null) vector.add("UI:" + ui.shorthand);
+        if (s != null) vector.add("S:" + s.shorthand);
+        if (c != null) vector.add("C:" + c.shorthand);
+        if (i != null) vector.add("I:" + i.shorthand);
+        if (a != null) vector.add("A:" + a.shorthand);
+
+        if (e != null && (!e.shorthand.equalsIgnoreCase("X"))) vector.add("E:" + e.shorthand);
+        if (rl != null && (!rl.shorthand.equalsIgnoreCase("X"))) vector.add("RL:" + rl.shorthand);
+        if (rc != null && (!rc.shorthand.equalsIgnoreCase("X"))) vector.add("RC:" + rc.shorthand);
+
+        if (cr != null && (!cr.shorthand.equalsIgnoreCase("X"))) vector.add("CR:" + cr.shorthand);
+        if (ir != null && (!ir.shorthand.equalsIgnoreCase("X"))) vector.add("IR:" + ir.shorthand);
+        if (ar != null && (!ar.shorthand.equalsIgnoreCase("X"))) vector.add("AR:" + ar.shorthand);
+        if (mav != null && (!mav.shorthand.equalsIgnoreCase("X"))) vector.add("MAV:" + mav.shorthand);
+        if (mac != null && (!mac.shorthand.equalsIgnoreCase("X"))) vector.add("MAC:" + mac.shorthand);
+        if (mpr != null && (!mpr.shorthand.equalsIgnoreCase("X"))) vector.add("MPR:" + mpr.shorthand);
+        if (mui != null && (!mui.shorthand.equalsIgnoreCase("X"))) vector.add("MUI:" + mui.shorthand);
+        if (ms != null && (!ms.shorthand.equalsIgnoreCase("X"))) vector.add("MS:" + ms.shorthand);
+        if (mc != null && (!mc.shorthand.equalsIgnoreCase("X"))) vector.add("MC:" + mc.shorthand);
+        if (mi != null && (!mi.shorthand.equalsIgnoreCase("X"))) vector.add("MI:" + mi.shorthand);
+        if (ma != null && (!ma.shorthand.equalsIgnoreCase("X"))) vector.add("MA:" + ma.shorthand);
+
+        return String.join("/", vector);
+    }
+
+    /**
+     * Return the vector string of the {@link CvssV3_1}.
+     *
+     * @param includeAll includes all NOT_DEFINED fields in the vector string if true, removes them if false
+     * @return the vector string of the {@link CvssV3_1}
+     */
+    public String getVector(final boolean includeAll) {
+        if (includeAll) {
+            List<String> vector = new ArrayList<>();
+            vector.add("CVSS:3.1");
+            if (av != null) vector.add("AV:" + av.shorthand);
+            if (ac != null) vector.add("AC:" + ac.shorthand);
+            if (pr != null) vector.add("PR:" + pr.shorthand);
+            if (ui != null) vector.add("UI:" + ui.shorthand);
+            if (s != null) vector.add("S:" + s.shorthand);
+            if (c != null) vector.add("C:" + c.shorthand);
+            if (i != null) vector.add("I:" + i.shorthand);
+            if (a != null) vector.add("A:" + a.shorthand);
+
+            if (e != null) vector.add("E:" + e.shorthand);
+            if (rl != null) vector.add("RL:" + rl.shorthand);
+            if (rc != null) vector.add("RC:" + rc.shorthand);
+
+            if (cr != null) vector.add("CR:" + cr.shorthand);
+            if (ir != null) vector.add("IR:" + ir.shorthand);
+            if (ar != null) vector.add("AR:" + ar.shorthand);
+            if (mav != null) vector.add("MAV:" + mav.shorthand);
+            if (mac != null) vector.add("MAC:" + mac.shorthand);
+            if (mpr != null) vector.add("MPR:" + mpr.shorthand);
+            if (mui != null) vector.add("MUI:" + mui.shorthand);
+            if (ms != null) vector.add("MS:" + ms.shorthand);
+            if (mc != null) vector.add("MC:" + mc.shorthand);
+            if (mi != null) vector.add("MI:" + mi.shorthand);
+            if (ma != null) vector.add("MA:" + ma.shorthand);
+            return String.join("/", vector);
+        }
+        return getVector();
     }
 
     public ModifiedAttackVector getModifiedAttackVector() {
