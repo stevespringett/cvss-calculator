@@ -163,27 +163,42 @@ public class CvssV3_1 extends CvssV3 {
 
         temporalScore = roundUp1(baseScore * e.weight * rl.weight * rc.weight);
 
+        boolean mprNotDefined = mpr == ModifiedPrivilegesRequired.NOT_DEFINED;
         if (ModifiedScope.UNCHANGED == ms) {
-            mprWeight = mpr.weight;
+            mprWeight = mprNotDefined ? pr.weight : mpr.weight;
             modifiedImpactSubScore = ms.weight * modifiedImpactSubScoreMultiplier;
         } else if (ModifiedScope.CHANGED == ms) {
-            mprWeight = mpr.scopeChangedWeight;
+            mprWeight = mprNotDefined ? pr.scopeChangedWeight : mpr.scopeChangedWeight;
             modifiedImpactSubScore = ms.weight * (modifiedImpactSubScoreMultiplier - 0.029) - 3.25 * Math.pow((modifiedImpactSubScoreMultiplier * 0.9731 - 0.02), 13);
         } else {
-            mprWeight = 0;
-            modifiedImpactSubScore = 0;
+            if (Scope.UNCHANGED == s){
+                mprWeight = mprNotDefined ? pr.weight : mpr.weight;
+                modifiedImpactSubScore = s.weight * modifiedImpactSubScoreMultiplier;
+            } else {
+                mprWeight = mprNotDefined ? pr.scopeChangedWeight : mpr.scopeChangedWeight;
+                modifiedImpactSubScore = s.weight * (modifiedImpactSubScoreMultiplier - 0.029) - 3.25 * Math.pow((modifiedImpactSubScoreMultiplier * 0.9731 - 0.02), 13);
+            }
+//            mprWeight = 0;
+//            modifiedImpactSubScore = 0;
         }
 
-        modifiedExploitabilitySubScore = exploitabilityCoefficient * mav.weight * mac.weight * mprWeight * mui.weight;
+        double mavWeight = mav == ModifiedAttackVector.NOT_DEFINED ? av.weight : mav.weight;
+        double macWeight = mac == ModifiedAttackComplexity.NOT_DEFINED ? ac.weight : mac.weight;
+        double muiWeight = mui == ModifiedUserInteraction.NOT_DEFINED ? ui.weight : mui.weight;
+        modifiedExploitabilitySubScore = exploitabilityCoefficient * mavWeight * macWeight * mprWeight * muiWeight;
 
         if (modifiedImpactSubScore <= 0) {
             environmentalScore = 0;
             modifiedImpactSubScore = 0;
         } else {
-            if (ModifiedScope.UNCHANGED == ms) {
+            if (ModifiedScope.UNCHANGED == ms || (ModifiedScope.NOT_DEFINED == ms && Scope.UNCHANGED == s)) {
                 environmentalScore = roundUp1(roundUp1(Math.min((modifiedImpactSubScore + modifiedExploitabilitySubScore), 10)) * e.weight * rl.weight * rc.weight);
-            } else {
+            } else if (ModifiedScope.CHANGED == ms || (ModifiedScope.NOT_DEFINED == ms && Scope.CHANGED == s)) {
                 environmentalScore = roundUp1(roundUp1(Math.min(1.08 * (modifiedImpactSubScore + modifiedExploitabilitySubScore), 10)) * e.weight * rl.weight * rc.weight);
+            } else {
+                // throw new RuntimeException("This should never happen");
+                // This should never happen
+                environmentalScore = 0;
             }
         }
 
