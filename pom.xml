@@ -56,8 +56,8 @@
     </issueManagement>
 
     <ciManagement>
-        <system>travis-ci</system>
-        <url>https://travis-ci.org/stevespringett/cvss-calculator</url>
+        <system>GitHub-Actions</system>
+        <url>https://github.com/stevespringett/cvss-calculator/actions</url>
     </ciManagement>
 
     <dependencies>
