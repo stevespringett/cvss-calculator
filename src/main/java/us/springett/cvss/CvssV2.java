@@ -92,7 +92,7 @@ public class CvssV2 implements Cvss {
         }
         public static AttackVector fromString(String text) {
             for (AttackVector e : AttackVector.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -113,7 +113,7 @@ public class CvssV2 implements Cvss {
         }
         public static AttackComplexity fromString(String text) {
             for (AttackComplexity e : AttackComplexity.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -134,7 +134,7 @@ public class CvssV2 implements Cvss {
         }
         public static Authentication fromString(String text) {
             for (Authentication e : Authentication.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -158,7 +158,7 @@ public class CvssV2 implements Cvss {
         }
         public static Exploitability fromString(String text) {
             for (Exploitability e : Exploitability.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -181,7 +181,7 @@ public class CvssV2 implements Cvss {
         }
         public static RemediationLevel  fromString(String text) {
             for (RemediationLevel  e : RemediationLevel .values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -203,7 +203,7 @@ public class CvssV2 implements Cvss {
         }
         public static ReportConfidence  fromString(String text) {
             for (ReportConfidence  e : ReportConfidence .values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -225,7 +225,7 @@ public class CvssV2 implements Cvss {
         }
         public static CIA fromString(String text) {
             for (CIA e : CIA.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
