@@ -80,19 +80,19 @@ public class CvssV2 implements Cvss {
     }
 
     public enum AttackVector {
-        NETWORK(1.0, "N"),
-        ADJACENT(0.646, "A"),
-        LOCAL(0.395, "L");
+        NETWORK(1.0, 'N'),
+        ADJACENT(0.646, 'A'),
+        LOCAL(0.395, 'L');
 
         private final double weight;
-        private final String shorthand;
-        AttackVector(double weight, String shorthand) {
+        private final char shorthand;
+        AttackVector(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static AttackVector fromString(String text) {
+        public static AttackVector fromChar(char c) {
             for (AttackVector e : AttackVector.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -101,19 +101,19 @@ public class CvssV2 implements Cvss {
     }
 
     public enum AttackComplexity {
-        LOW(0.71, "L"),
-        MEDIUM(0.61, "M"),
-        HIGH(0.35, "H");
+        LOW(0.71, 'L'),
+        MEDIUM(0.61, 'M'),
+        HIGH(0.35, 'H');
 
         private final double weight;
-        private final String shorthand;
-        AttackComplexity(double weight, String shorthand) {
+        private final char shorthand;
+        AttackComplexity(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static AttackComplexity fromString(String text) {
+        public static AttackComplexity fromChar(char c) {
             for (AttackComplexity e : AttackComplexity.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -122,19 +122,19 @@ public class CvssV2 implements Cvss {
     }
 
     public enum Authentication  {
-        NONE(0.704, "N"),
-        SINGLE(0.56, "S"),
-        MULTIPLE(0.45, "M");
+        NONE(0.704, 'N'),
+        SINGLE(0.56, 'S'),
+        MULTIPLE(0.45, 'M');
 
         private final double weight;
-        private final String shorthand;
-        Authentication(double weight, String shorthand) {
+        private final char shorthand;
+        Authentication(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static Authentication fromString(String text) {
+        public static Authentication fromChar(char c) {
             for (Authentication e : Authentication.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -213,19 +213,19 @@ public class CvssV2 implements Cvss {
     // End-Temporal
 
     public enum CIA {
-        NONE(0.0, "N"),
-        PARTIAL(0.275, "P"),
-        COMPLETE(0.660, "C");
+        NONE(0.0, 'N'),
+        PARTIAL(0.275, 'P'),
+        COMPLETE(0.660, 'C');
 
         private final double weight;
-        private final String shorthand;
-        CIA(double weight, String shorthand) {
+        private final char shorthand;
+        CIA(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static CIA fromString(String text) {
+        public static CIA fromChar(char c) {
             for (CIA e : CIA.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }

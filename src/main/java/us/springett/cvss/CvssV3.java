@@ -95,20 +95,20 @@ public class CvssV3 implements Cvss {
     }
 
     public enum AttackVector {
-        NETWORK(0.85, "N"),
-        ADJACENT(0.62, "A"),
-        LOCAL(0.55, "L"),
-        PHYSICAL(0.2, "P");
+        NETWORK(0.85, 'N'),
+        ADJACENT(0.62, 'A'),
+        LOCAL(0.55, 'L'),
+        PHYSICAL(0.2, 'P');
 
         protected final double weight;
-        protected final String shorthand;
-        AttackVector(double weight, String shorthand) {
+        protected final char shorthand;
+        AttackVector(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static AttackVector fromString(String text) {
+        public static AttackVector fromChar(char c) {
             for (AttackVector e : AttackVector.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -117,18 +117,18 @@ public class CvssV3 implements Cvss {
     }
 
     public enum AttackComplexity {
-        LOW(0.77, "L"),
-        HIGH(0.44, "H");
+        LOW(0.77, 'L'),
+        HIGH(0.44, 'H');
 
         protected final double weight;
-        protected final String shorthand;
-        AttackComplexity(double weight, String shorthand) {
+        protected final char shorthand;
+        AttackComplexity(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static AttackComplexity fromString(String text) {
+        public static AttackComplexity fromChar(char c) {
             for (AttackComplexity e : AttackComplexity.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -137,21 +137,21 @@ public class CvssV3 implements Cvss {
     }
 
     public enum PrivilegesRequired  {
-        NONE(0.85, 0.85, "N"),
-        LOW(0.62, 0.68, "L"),
-        HIGH(0.27, 0.5, "H");
+        NONE(0.85, 0.85, 'N'),
+        LOW(0.62, 0.68, 'L'),
+        HIGH(0.27, 0.5, 'H');
 
         protected final double weight;
         protected final double scopeChangedWeight;
-        protected final String shorthand;
-        PrivilegesRequired(double weight, double scopeChangedWeight, String shorthand) {
+        protected final char shorthand;
+        PrivilegesRequired(double weight, double scopeChangedWeight, char shorthand) {
             this.weight = weight;
             this.scopeChangedWeight = scopeChangedWeight;
             this.shorthand = shorthand;
         }
-        public static PrivilegesRequired fromString(String text) {
+        public static PrivilegesRequired fromChar(char c) {
             for (PrivilegesRequired e : PrivilegesRequired.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -160,18 +160,18 @@ public class CvssV3 implements Cvss {
     }
 
     public enum UserInteraction {
-        NONE(0.85, "N"),
-        REQUIRED(0.62, "R");
+        NONE(0.85, 'N'),
+        REQUIRED(0.62, 'R');
 
         protected final double weight;
-        protected final String shorthand;
-        UserInteraction(double weight, String shorthand) {
+        protected final char shorthand;
+        UserInteraction(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static UserInteraction fromString(String text) {
+        public static UserInteraction fromChar(char c) {
             for (UserInteraction e : UserInteraction.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -180,18 +180,18 @@ public class CvssV3 implements Cvss {
     }
 
     public enum Scope {
-        UNCHANGED(6.42, "U"),
-        CHANGED(7.52, "C");
+        UNCHANGED(6.42, 'U'),
+        CHANGED(7.52, 'C');
 
         protected final double weight;
-        protected final String shorthand;
-        Scope(double weight, String shorthand) {
+        protected final char shorthand;
+        Scope(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static Scope fromString(String text) {
+        public static Scope fromChar(char c) {
             for (Scope e : Scope.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -201,21 +201,21 @@ public class CvssV3 implements Cvss {
 
     // Temporal
     public enum Exploitability {
-        UNPROVEN(0.91, "U"),
-        POC(0.94, "P"),
-        FUNCTIONAL(0.97, "F"),
-        HIGH(1.0, "H"),
-        NOT_DEFINED(1.0, "X"),;
+        UNPROVEN(0.91, 'U'),
+        POC(0.94, 'P'),
+        FUNCTIONAL(0.97, 'F'),
+        HIGH(1.0, 'H'),
+        NOT_DEFINED(1.0, 'X'),;
 
         protected final double weight;
-        protected final String shorthand;
-        Exploitability(double weight, String shorthand) {
+        protected final char shorthand;
+        Exploitability(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static Exploitability fromString(String text) {
+        public static Exploitability fromChar(char c) {
             for (Exploitability e : Exploitability.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -224,21 +224,21 @@ public class CvssV3 implements Cvss {
     }
 
     public enum RemediationLevel  {
-        UNAVAILABLE(1.0, "U"),
-        WORKAROUND(0.97, "W"),
-        TEMPORARY(0.96, "T"),
-        OFFICIAL(0.95, "O"),
-        NOT_DEFINED(1.0, "X"),;
+        UNAVAILABLE(1.0, 'U'),
+        WORKAROUND(0.97, 'W'),
+        TEMPORARY(0.96, 'T'),
+        OFFICIAL(0.95, 'O'),
+        NOT_DEFINED(1.0, 'X'),;
 
         protected final double weight;
-        protected final String shorthand;
-        RemediationLevel (double weight, String shorthand) {
+        protected final char shorthand;
+        RemediationLevel (double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static RemediationLevel fromString(String text) {
+        public static RemediationLevel fromChar(char c) {
             for (RemediationLevel e : RemediationLevel.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -247,20 +247,20 @@ public class CvssV3 implements Cvss {
     }
 
     public enum ReportConfidence  {
-        UNKNOWN(0.92, "U"),
-        REASONABLE(0.96, "R"),
-        CONFIRMED(1.0, "C"),
-        NOT_DEFINED(1.0, "X"),;
+        UNKNOWN(0.92, 'U'),
+        REASONABLE(0.96, 'R'),
+        CONFIRMED(1.0, 'C'),
+        NOT_DEFINED(1.0, 'X'),;
 
         protected final double weight;
-        protected final String shorthand;
-        ReportConfidence (double weight, String shorthand) {
+        protected final char shorthand;
+        ReportConfidence (double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static ReportConfidence fromString(String text) {
+        public static ReportConfidence fromChar(char c) {
             for (ReportConfidence e : ReportConfidence.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -270,19 +270,19 @@ public class CvssV3 implements Cvss {
     // End-Temporal
 
     public enum CIA {
-        NONE(0, "N"),
-        LOW(0.22, "L"),
-        HIGH(0.56, "H");
+        NONE(0, 'N'),
+        LOW(0.22, 'L'),
+        HIGH(0.56, 'H');
 
         protected final double weight;
-        protected final String shorthand;
-        CIA(double weight, String shorthand) {
+        protected final char shorthand;
+        CIA(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
-        public static CIA fromString(String text) {
+        public static CIA fromString(char c) {
             for (CIA e : CIA.values()) {
-                if (e.shorthand.equals(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
