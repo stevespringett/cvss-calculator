@@ -1020,18 +1020,62 @@ public class CvssV3_1Test {
         String cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H";
         Cvss cvssV3 = Cvss.fromVector(cvss3Vector);
         Assert.assertNotNull(cvssV3);
+        CvssV3 v3 = (CvssV3)cvssV3;
+        Assert.assertEquals(CvssV3.AttackVector.NETWORK, v3.getAttackVector());
+        Assert.assertEquals(CvssV3.AttackComplexity.LOW, v3.getAttackComplexity());
+        Assert.assertEquals(CvssV3.PrivilegesRequired.HIGH, v3.getPrivilegesRequired());
+        Assert.assertEquals(CvssV3.UserInteraction.NONE, v3.getUserInteraction());
+        Assert.assertEquals(CvssV3.Scope.UNCHANGED, v3.getScope());
+        Assert.assertEquals(CvssV3.CIA.HIGH, v3.getConfidentiality());
+        Assert.assertEquals(CvssV3.CIA.HIGH, v3.getIntegrity());
+        Assert.assertEquals(CvssV3.CIA.HIGH, v3.getAvailability());
         assertEquals(cvss3Vector, cvssV3.getVector());
 
         // With temporal vector elements
-        cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C";
+        cvss3Vector = "CVSS:3.0/AV:A/AC:H/PR:L/UI:R/S:C/C:L/I:H/A:L/E:X/RL:X/RC:C";
         cvssV3 = Cvss.fromVector(cvss3Vector);
         Assert.assertNotNull(cvssV3);
+        v3 = (CvssV3)cvssV3;
+        Assert.assertEquals(CvssV3.AttackVector.ADJACENT, v3.getAttackVector());
+        Assert.assertEquals(CvssV3.AttackComplexity.HIGH, v3.getAttackComplexity());
+        Assert.assertEquals(CvssV3.PrivilegesRequired.LOW, v3.getPrivilegesRequired());
+        Assert.assertEquals(CvssV3.UserInteraction.REQUIRED, v3.getUserInteraction());
+        Assert.assertEquals(CvssV3.Scope.CHANGED, v3.getScope());
+        Assert.assertEquals(CvssV3.CIA.LOW, v3.getConfidentiality());
+        Assert.assertEquals(CvssV3.CIA.HIGH, v3.getIntegrity());
+        Assert.assertEquals(CvssV3.CIA.LOW, v3.getAvailability());
+        Assert.assertEquals(CvssV3.Exploitability.NOT_DEFINED, v3.getExploitability());
+        Assert.assertEquals(CvssV3.RemediationLevel.NOT_DEFINED, v3.getRemediationLevel());
+        Assert.assertEquals(CvssV3.ReportConfidence.CONFIRMED, v3.getReportConfidence());
         assertEquals(cvss3Vector, cvssV3.getVector());
 
         // With environmental vector elements
-        cvss3Vector = "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C/CR:L/IR:M/AR:L/MAV:P/MAC:H/MPR:N/MUI:R/MS:U/MC:L/MI:L/MA:L";
+        cvss3Vector = "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:U/RL:T/RC:R/CR:L/IR:M/AR:L/MAV:P/MAC:H/MPR:N/MUI:R/MS:U/MC:L/MI:L/MA:L";
         cvssV3 = Cvss.fromVector(cvss3Vector);
         Assert.assertNotNull(cvssV3);
+        CvssV3_1 v3_1 = (CvssV3_1)cvssV3;
+        Assert.assertEquals(CvssV3.AttackVector.NETWORK, v3_1.getAttackVector());
+        Assert.assertEquals(CvssV3.AttackComplexity.LOW, v3_1.getAttackComplexity());
+        Assert.assertEquals(CvssV3.PrivilegesRequired.HIGH, v3_1.getPrivilegesRequired());
+        Assert.assertEquals(CvssV3.UserInteraction.NONE, v3_1.getUserInteraction());
+        Assert.assertEquals(CvssV3.Scope.UNCHANGED, v3_1.getScope());
+        Assert.assertEquals(CvssV3.CIA.HIGH, v3_1.getConfidentiality());
+        Assert.assertEquals(CvssV3.CIA.HIGH, v3_1.getIntegrity());
+        Assert.assertEquals(CvssV3.CIA.HIGH, v3_1.getAvailability());
+        Assert.assertEquals(CvssV3.Exploitability.UNPROVEN, v3_1.getExploitability());
+        Assert.assertEquals(CvssV3.RemediationLevel.TEMPORARY, v3_1.getRemediationLevel());
+        Assert.assertEquals(CvssV3.ReportConfidence.REASONABLE, v3_1.getReportConfidence());
+        Assert.assertEquals(CvssV3_1.ConfidentialityRequirement.LOW, v3_1.getConfidentialityRequirement());
+        Assert.assertEquals(CvssV3_1.IntegrityRequirement.MEDIUM, v3_1.getIntegrityRequirement());
+        Assert.assertEquals(CvssV3_1.AvailabilityRequirement.LOW, v3_1.getAvailabilityRequirement());
+        Assert.assertEquals(CvssV3_1.ModifiedAttackVector.PHYSICAL, v3_1.getModifiedAttackVector());
+        Assert.assertEquals(CvssV3_1.ModifiedAttackComplexity.HIGH, v3_1.getModifiedAttackComplexity());
+        Assert.assertEquals(CvssV3_1.ModifiedPrivilegesRequired.NONE, v3_1.getModifiedPrivilegesRequired());
+        Assert.assertEquals(CvssV3_1.ModifiedUserInteraction.REQUIRED, v3_1.getModifiedUserInteraction());
+        Assert.assertEquals(CvssV3_1.ModifiedScope.UNCHANGED, v3_1.getModifiedScope());
+        Assert.assertEquals(CvssV3_1.ModifiedCIA.LOW, v3_1.getModifiedConfidentialityImpact());
+        Assert.assertEquals(CvssV3_1.ModifiedCIA.LOW, v3_1.getModifiedIntegrityImpact());
+        Assert.assertEquals(CvssV3_1.ModifiedCIA.LOW, v3_1.getModifiedAvailabilityImpact());
         assertEquals(cvss3Vector, cvssV3.getVector());
     }
 }
