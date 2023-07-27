@@ -304,7 +304,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static ConfidentialityRequirement fromString(String text) {
             for (ConfidentialityRequirement cr : ConfidentialityRequirement.values()) {
-                if (cr.shorthand.equalsIgnoreCase(text)) {
+                if (cr.shorthand.equals(text)) {
                     return cr;
                 }
             }
@@ -328,7 +328,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static IntegrityRequirement fromString(String text) {
             for (IntegrityRequirement ir : IntegrityRequirement.values()) {
-                if (ir.shorthand.equalsIgnoreCase(text)) {
+                if (ir.shorthand.equals(text)) {
                     return ir;
                 }
             }
@@ -352,7 +352,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static AvailabilityRequirement fromString(String text) {
             for (AvailabilityRequirement ar : AvailabilityRequirement.values()) {
-                if (ar.shorthand.equalsIgnoreCase(text)) {
+                if (ar.shorthand.equals(text)) {
                     return ar;
                 }
             }
@@ -377,7 +377,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static ModifiedAttackVector fromString(String text) {
             for (ModifiedAttackVector e : ModifiedAttackVector.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -400,7 +400,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static ModifiedAttackComplexity fromString(String text) {
             for (ModifiedAttackComplexity e : ModifiedAttackComplexity.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -426,7 +426,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static ModifiedPrivilegesRequired fromString(String text) {
             for (ModifiedPrivilegesRequired e : ModifiedPrivilegesRequired.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -449,7 +449,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static ModifiedUserInteraction fromString(String text) {
             for (ModifiedUserInteraction e : ModifiedUserInteraction.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -472,7 +472,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static ModifiedScope fromString(String text) {
             for (ModifiedScope e : ModifiedScope.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
@@ -496,7 +496,7 @@ public class CvssV3_1 extends CvssV3 {
 
         public static ModifiedCIA fromString(String text) {
             for (ModifiedCIA e : ModifiedCIA.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand.equals(text)) {
                     return e;
                 }
             }
