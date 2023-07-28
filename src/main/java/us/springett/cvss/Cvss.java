@@ -15,7 +15,6 @@
  */
 package us.springett.cvss;
 
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,42 +57,40 @@ public interface Cvss {
         Matcher v3_1Matcher = CVSSv3_1_PATTERN.matcher(vector);
         if (v3_1Matcher.find()) {
             // Found a valid CVSSv3.1 vector
-            CvssV3_1 cvssV3_1 = getCvssV3_1BaseVector(v3_1Matcher);
-
-            cvssV3_1.exploitability(CvssV3.Exploitability.fromString(v3_1Matcher.group(9)));
-            cvssV3_1.remediationLevel(CvssV3.RemediationLevel.fromString(v3_1Matcher.group(10)));
-            cvssV3_1.reportConfidence(CvssV3.ReportConfidence.fromString(v3_1Matcher.group(11)));
-            cvssV3_1.confidentialityRequirement(CvssV3_1.ConfidentialityRequirement.fromString(v3_1Matcher.group(12)));
-            cvssV3_1.integrityRequirement(CvssV3_1.IntegrityRequirement.fromString(v3_1Matcher.group(13)));
-            cvssV3_1.availabilityRequirement(CvssV3_1.AvailabilityRequirement.fromString(v3_1Matcher.group(14)));
-            cvssV3_1.modifiedAttackVector(CvssV3_1.ModifiedAttackVector.fromString(v3_1Matcher.group(15)));
-            cvssV3_1.modifiedAttackComplexity(CvssV3_1.ModifiedAttackComplexity.fromString(v3_1Matcher.group(16)));
-            cvssV3_1.modifiedPrivilegesRequired(CvssV3_1.ModifiedPrivilegesRequired.fromString(v3_1Matcher.group(17)));
-            cvssV3_1.modifiedUserInteraction(CvssV3_1.ModifiedUserInteraction.fromString(v3_1Matcher.group(18)));
-            cvssV3_1.modifiedScope(CvssV3_1.ModifiedScope.fromString(v3_1Matcher.group(19)));
-            cvssV3_1.modifiedConfidentialityImpact(CvssV3_1.ModifiedCIA.fromString(v3_1Matcher.group(20)));
-            cvssV3_1.modifiedIntegrityImpact(CvssV3_1.ModifiedCIA.fromString(v3_1Matcher.group(21)));
-            cvssV3_1.modifiedAvailabilityImpact(CvssV3_1.ModifiedCIA.fromString(v3_1Matcher.group(22)));
+            char [] vectorChars = vector.toCharArray();
+            CvssV3_1 cvssV3_1 = getCvssV3_1BaseVector(v3_1Matcher, vectorChars);
+            fillV3TemporalValues(v3_1Matcher, vectorChars, cvssV3_1);
+            cvssV3_1.confidentialityRequirement(CvssV3_1.ConfidentialityRequirement.fromChar(vectorChars[v3_1Matcher.start(12)]));
+            cvssV3_1.integrityRequirement(CvssV3_1.IntegrityRequirement.fromChar(vectorChars[v3_1Matcher.start(13)]));
+            cvssV3_1.availabilityRequirement(CvssV3_1.AvailabilityRequirement.fromChar(vectorChars[v3_1Matcher.start(14)]));
+            cvssV3_1.modifiedAttackVector(CvssV3_1.ModifiedAttackVector.fromChar(vectorChars[v3_1Matcher.start(15)]));
+            cvssV3_1.modifiedAttackComplexity(CvssV3_1.ModifiedAttackComplexity.fromChar(vectorChars[v3_1Matcher.start(16)]));
+            cvssV3_1.modifiedPrivilegesRequired(CvssV3_1.ModifiedPrivilegesRequired.fromChar(vectorChars[v3_1Matcher.start(17)]));
+            cvssV3_1.modifiedUserInteraction(CvssV3_1.ModifiedUserInteraction.fromChar(vectorChars[v3_1Matcher.start(18)]));
+            cvssV3_1.modifiedScope(CvssV3_1.ModifiedScope.fromChar(vectorChars[v3_1Matcher.start(19)]));
+            cvssV3_1.modifiedConfidentialityImpact(CvssV3_1.ModifiedCIA.fromChar(vectorChars[v3_1Matcher.start(20)]));
+            cvssV3_1.modifiedIntegrityImpact(CvssV3_1.ModifiedCIA.fromChar(vectorChars[v3_1Matcher.start(21)]));
+            cvssV3_1.modifiedAvailabilityImpact(CvssV3_1.ModifiedCIA.fromChar(vectorChars[v3_1Matcher.start(22)]));
             return cvssV3_1;
         }
         Matcher v3TemporalMatcher = CVSSv3_PATTERN_TEMPORAL.matcher(vector);
         if (v3TemporalMatcher.find()) {
+            char [] vectorChars = vector.toCharArray();
             // Found a valid CVSSv3 vector with temporal values
-            CvssV3 cvssV3 = getCvssV3BaseVector(v3TemporalMatcher);
-            cvssV3.exploitability(CvssV3.Exploitability.fromString(v3TemporalMatcher.group(9)));
-            cvssV3.remediationLevel(CvssV3.RemediationLevel.fromString(v3TemporalMatcher.group(10)));
-            cvssV3.reportConfidence(CvssV3.ReportConfidence.fromString(v3TemporalMatcher.group(11)));
+            CvssV3 cvssV3 = getCvssV3BaseVector(v3TemporalMatcher, vectorChars);
+            fillV3TemporalValues(v3TemporalMatcher, vectorChars, cvssV3);
             return cvssV3;
         }
         Matcher v3Matcher = CVSSv3_PATTERN.matcher(vector);
         if (v3Matcher.find()) {
+            char [] vectorChars = vector.toCharArray();
             // Found a valid CVSSv3 vector
-            return getCvssV3BaseVector(v3Matcher);
+            return getCvssV3BaseVector(v3Matcher, vectorChars);
         }
         Matcher v2TemporalMatcher = CVSSv2_PATTERN_TEMPORAL.matcher(vector);
         if (v2TemporalMatcher.find()) {
             // Found a valid CVSSv2 vector with temporal values
-            CvssV2 cvssV2 = getCvssV2BaseVector(v2TemporalMatcher);
+            CvssV2 cvssV2 = getCvssV2BaseVector(v2TemporalMatcher, vector.toCharArray());
             cvssV2.exploitability(CvssV2.Exploitability.fromString(v2TemporalMatcher.group(7)));
             cvssV2.remediationLevel(CvssV2.RemediationLevel.fromString(v2TemporalMatcher.group(8)));
             cvssV2.reportConfidence(CvssV2.ReportConfidence.fromString(v2TemporalMatcher.group(9)));
@@ -102,45 +99,51 @@ public interface Cvss {
         Matcher v2Matcher = CVSSv2_PATTERN.matcher(vector);
         if (v2Matcher.find()) {
             // Found a valid CVSSv2 vector
-            return getCvssV2BaseVector(v2Matcher);
+            return getCvssV2BaseVector(v2Matcher, vector.toCharArray());
         } else
         return null;
     }
 
-    static CvssV2 getCvssV2BaseVector(Matcher st) {
+    static void fillV3TemporalValues(Matcher v3TemporalMatcher, char[] vectorChars, CvssV3 cvssV3) {
+        cvssV3.exploitability(CvssV3.Exploitability.fromChar(vectorChars[v3TemporalMatcher.start(9)]));
+        cvssV3.remediationLevel(CvssV3.RemediationLevel.fromChar(vectorChars[v3TemporalMatcher.start(10)]));
+        cvssV3.reportConfidence(CvssV3.ReportConfidence.fromChar(vectorChars[v3TemporalMatcher.start(11)]));
+    }
+
+    static CvssV2 getCvssV2BaseVector(Matcher st, char [] array) {
         CvssV2 cvssV2 = new CvssV2();
-        cvssV2.attackVector(CvssV2.AttackVector.fromString(st.group(1)));
-        cvssV2.attackComplexity(CvssV2.AttackComplexity.fromString(st.group(2)));
-        cvssV2.authentication(CvssV2.Authentication.fromString(st.group(3)));
-        cvssV2.confidentiality(CvssV2.CIA.fromString(st.group(4)));
-        cvssV2.integrity(CvssV2.CIA.fromString(st.group(5)));
-        cvssV2.availability(CvssV2.CIA.fromString(st.group(6)));
+        cvssV2.attackVector(CvssV2.AttackVector.fromChar(array[st.start(1)]));
+        cvssV2.attackComplexity(CvssV2.AttackComplexity.fromChar(array[st.start(2)]));
+        cvssV2.authentication(CvssV2.Authentication.fromChar(array[st.start(3)]));
+        cvssV2.confidentiality(CvssV2.CIA.fromChar(array[st.start(4)]));
+        cvssV2.integrity(CvssV2.CIA.fromChar(array[st.start(5)]));
+        cvssV2.availability(CvssV2.CIA.fromChar(array[st.start(6)]));
         return cvssV2;
     }
 
-    static CvssV3 getCvssV3BaseVector(Matcher st) {
+    static CvssV3 getCvssV3BaseVector(Matcher st, char [] array) {
         CvssV3 cvssV3 = new CvssV3();
-        cvssV3.attackVector(CvssV3.AttackVector.fromString(st.group(1)));
-        cvssV3.attackComplexity(CvssV3.AttackComplexity.fromString(st.group(2)));
-        cvssV3.privilegesRequired(CvssV3.PrivilegesRequired.fromString(st.group(3)));
-        cvssV3.userInteraction(CvssV3.UserInteraction.fromString(st.group(4)));
-        cvssV3.scope(CvssV3.Scope.fromString(st.group(5)));
-        cvssV3.confidentiality(CvssV3.CIA.fromString(st.group(6)));
-        cvssV3.integrity(CvssV3.CIA.fromString(st.group(7)));
-        cvssV3.availability(CvssV3.CIA.fromString(st.group(8)));
+        cvssV3.attackVector(CvssV3.AttackVector.fromChar(array[st.start(1)]));
+        cvssV3.attackComplexity(CvssV3.AttackComplexity.fromChar(array[st.start(2)]));
+        cvssV3.privilegesRequired(CvssV3.PrivilegesRequired.fromChar(array[st.start(3)]));
+        cvssV3.userInteraction(CvssV3.UserInteraction.fromChar(array[st.start(4)]));
+        cvssV3.scope(CvssV3.Scope.fromChar(array[st.start(5)]));
+        cvssV3.confidentiality(CvssV3.CIA.fromString(array[st.start(6)]));
+        cvssV3.integrity(CvssV3.CIA.fromString(array[st.start(7)]));
+        cvssV3.availability(CvssV3.CIA.fromString(array[st.start(8)]));
         return cvssV3;
     }
 
-    static CvssV3_1 getCvssV3_1BaseVector(Matcher st) {
+    static CvssV3_1 getCvssV3_1BaseVector(Matcher st, char [] array) {
         CvssV3_1 cvssV3_1 = new CvssV3_1();
-        cvssV3_1.attackVector(CvssV3.AttackVector.fromString(st.group(1)));
-        cvssV3_1.attackComplexity(CvssV3.AttackComplexity.fromString(st.group(2)));
-        cvssV3_1.privilegesRequired(CvssV3.PrivilegesRequired.fromString(st.group(3)));
-        cvssV3_1.userInteraction(CvssV3.UserInteraction.fromString(st.group(4)));
-        cvssV3_1.scope(CvssV3.Scope.fromString(st.group(5)));
-        cvssV3_1.confidentiality(CvssV3.CIA.fromString(st.group(6)));
-        cvssV3_1.integrity(CvssV3.CIA.fromString(st.group(7)));
-        cvssV3_1.availability(CvssV3.CIA.fromString(st.group(8)));
+        cvssV3_1.attackVector(CvssV3.AttackVector.fromChar(array[st.start(1)]));
+        cvssV3_1.attackComplexity(CvssV3.AttackComplexity.fromChar(array[st.start(2)]));
+        cvssV3_1.privilegesRequired(CvssV3.PrivilegesRequired.fromChar(array[st.start(3)]));
+        cvssV3_1.userInteraction(CvssV3.UserInteraction.fromChar(array[st.start(4)]));
+        cvssV3_1.scope(CvssV3.Scope.fromChar(array[st.start(5)]));
+        cvssV3_1.confidentiality(CvssV3.CIA.fromString(array[st.start(6)]));
+        cvssV3_1.integrity(CvssV3.CIA.fromString(array[st.start(7)]));
+        cvssV3_1.availability(CvssV3.CIA.fromString(array[st.start(8)]));
         return cvssV3_1;
     }
 
