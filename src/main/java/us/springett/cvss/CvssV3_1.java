@@ -289,22 +289,22 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum ConfidentialityRequirement {
-        NOT_DEFINED(1.0, "X"),
-        LOW(0.5, "L"),
-        MEDIUM(1.0, "M"),
-        HIGH(1.5, "H");
+        NOT_DEFINED(1.0, 'X'),
+        LOW(0.5, 'L'),
+        MEDIUM(1.0, 'M'),
+        HIGH(1.5, 'H');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        ConfidentialityRequirement(double weight, String shorthand) {
+        ConfidentialityRequirement(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static ConfidentialityRequirement fromString(String text) {
+        public static ConfidentialityRequirement fromChar(char c) {
             for (ConfidentialityRequirement cr : ConfidentialityRequirement.values()) {
-                if (cr.shorthand.equalsIgnoreCase(text)) {
+                if (cr.shorthand==c) {
                     return cr;
                 }
             }
@@ -313,22 +313,22 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum IntegrityRequirement {
-        NOT_DEFINED(1.0, "X"),
-        LOW(0.5, "L"),
-        MEDIUM(1.0, "M"),
-        HIGH(1.5, "H");
+        NOT_DEFINED(1.0, 'X'),
+        LOW(0.5, 'L'),
+        MEDIUM(1.0, 'M'),
+        HIGH(1.5, 'H');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        IntegrityRequirement(double weight, String shorthand) {
+        IntegrityRequirement(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static IntegrityRequirement fromString(String text) {
+        public static IntegrityRequirement fromChar(char c) {
             for (IntegrityRequirement ir : IntegrityRequirement.values()) {
-                if (ir.shorthand.equalsIgnoreCase(text)) {
+                if (ir.shorthand==c) {
                     return ir;
                 }
             }
@@ -337,22 +337,22 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum AvailabilityRequirement {
-        NOT_DEFINED(1.0, "X"),
-        LOW(0.5, "L"),
-        MEDIUM(1.0, "M"),
-        HIGH(1.5, "H");
+        NOT_DEFINED(1.0, 'X'),
+        LOW(0.5, 'L'),
+        MEDIUM(1.0, 'M'),
+        HIGH(1.5, 'H');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        AvailabilityRequirement(double weight, String shorthand) {
+        AvailabilityRequirement(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static AvailabilityRequirement fromString(String text) {
+        public static AvailabilityRequirement fromChar(char c) {
             for (AvailabilityRequirement ar : AvailabilityRequirement.values()) {
-                if (ar.shorthand.equalsIgnoreCase(text)) {
+                if (ar.shorthand==c) {
                     return ar;
                 }
             }
@@ -361,23 +361,23 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum ModifiedAttackVector {
-        NOT_DEFINED(0.0, "X"),
-        NETWORK(0.85, "N"),
-        ADJACENT(0.62, "A"),
-        LOCAL(0.55, "L"),
-        PHYSICAL(0.2, "P");
+        NOT_DEFINED(0.0, 'X'),
+        NETWORK(0.85, 'N'),
+        ADJACENT(0.62, 'A'),
+        LOCAL(0.55, 'L'),
+        PHYSICAL(0.2, 'P');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        ModifiedAttackVector(double weight, String shorthand) {
+        ModifiedAttackVector(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static ModifiedAttackVector fromString(String text) {
+        public static ModifiedAttackVector fromChar(char c) {
             for (ModifiedAttackVector e : ModifiedAttackVector.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -386,21 +386,21 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum ModifiedAttackComplexity {
-        NOT_DEFINED(0.0, "X"),
-        LOW(0.77, "L"),
-        HIGH(0.44, "H");
+        NOT_DEFINED(0.0, 'X'),
+        LOW(0.77, 'L'),
+        HIGH(0.44, 'H');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        ModifiedAttackComplexity(double weight, String shorthand) {
+        ModifiedAttackComplexity(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static ModifiedAttackComplexity fromString(String text) {
+        public static ModifiedAttackComplexity fromChar(char c) {
             for (ModifiedAttackComplexity e : ModifiedAttackComplexity.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -409,24 +409,24 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum ModifiedPrivilegesRequired {
-        NOT_DEFINED(0.0, 0.0, "X"),
-        NONE(0.85, 0.85, "N"),
-        LOW(0.62, 0.68, "L"),
-        HIGH(0.27, 0.5, "H");
+        NOT_DEFINED(0.0, 0.0, 'X'),
+        NONE(0.85, 0.85, 'N'),
+        LOW(0.62, 0.68, 'L'),
+        HIGH(0.27, 0.5, 'H');
 
         protected final double weight;
         protected final double scopeChangedWeight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        ModifiedPrivilegesRequired(double weight, double scopeChangedWeight, String shorthand) {
+        ModifiedPrivilegesRequired(double weight, double scopeChangedWeight, char shorthand) {
             this.weight = weight;
             this.scopeChangedWeight = scopeChangedWeight;
             this.shorthand = shorthand;
         }
 
-        public static ModifiedPrivilegesRequired fromString(String text) {
+        public static ModifiedPrivilegesRequired fromChar(char c) {
             for (ModifiedPrivilegesRequired e : ModifiedPrivilegesRequired.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -435,21 +435,21 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum ModifiedUserInteraction {
-        NOT_DEFINED(0.0, "X"),
-        NONE(0.85, "N"),
-        REQUIRED(0.62, "R");
+        NOT_DEFINED(0.0, 'X'),
+        NONE(0.85, 'N'),
+        REQUIRED(0.62, 'R');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        ModifiedUserInteraction(double weight, String shorthand) {
+        ModifiedUserInteraction(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static ModifiedUserInteraction fromString(String text) {
+        public static ModifiedUserInteraction fromChar(char c) {
             for (ModifiedUserInteraction e : ModifiedUserInteraction.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -458,21 +458,21 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum ModifiedScope {
-        NOT_DEFINED(0.0, "X"),
-        UNCHANGED(6.42, "U"),
-        CHANGED(7.52, "C");
+        NOT_DEFINED(0.0, 'X'),
+        UNCHANGED(6.42, 'U'),
+        CHANGED(7.52, 'C');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        ModifiedScope(double weight, String shorthand) {
+        ModifiedScope(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static ModifiedScope fromString(String text) {
+        public static ModifiedScope fromChar(char c) {
             for (ModifiedScope e : ModifiedScope.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
@@ -481,22 +481,22 @@ public class CvssV3_1 extends CvssV3 {
     }
 
     public enum ModifiedCIA {
-        NOT_DEFINED(0.0, "X"),
-        NONE(0.0, "N"),
-        LOW(0.22, "L"),
-        HIGH(0.56, "H");
+        NOT_DEFINED(0.0, 'X'),
+        NONE(0.0, 'N'),
+        LOW(0.22, 'L'),
+        HIGH(0.56, 'H');
 
         protected final double weight;
-        protected final String shorthand;
+        protected final char shorthand;
 
-        ModifiedCIA(double weight, String shorthand) {
+        ModifiedCIA(double weight, char shorthand) {
             this.weight = weight;
             this.shorthand = shorthand;
         }
 
-        public static ModifiedCIA fromString(String text) {
+        public static ModifiedCIA fromChar(char c) {
             for (ModifiedCIA e : ModifiedCIA.values()) {
-                if (e.shorthand.equalsIgnoreCase(text)) {
+                if (e.shorthand==c) {
                     return e;
                 }
             }
