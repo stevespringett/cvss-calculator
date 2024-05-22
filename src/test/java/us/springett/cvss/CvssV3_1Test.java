@@ -1015,6 +1015,29 @@ public class CvssV3_1Test {
     }
 
     @Test
+    public void environmentalMetricsTest() {
+        Cvss cvss;
+
+        // All environmental metrics are provided.
+        cvss = Cvss.fromVector("CVSS:3.1/AV:A/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:U/RL:O/RC:U/CR:L/IR:L/AR:L/MAV:N/MAC:L/MPR:N/MUI:N/MS:U/MC:N/MI:N/MA:L");
+        assertEquals(5.9, cvss.calculateScore().getBaseScore(), 0);
+        assertEquals(4.7, cvss.calculateScore().getTemporalScore(), 0);
+        assertEquals(3.7, cvss.calculateScore().getEnvironmentalScore(), 0);
+
+        // Environmental metrics are explicitly not defined.
+        cvss = Cvss.fromVector("CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:U/RL:O/RC:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X");
+        assertEquals(5.8, cvss.calculateScore().getBaseScore(), 0);
+        assertEquals(4.7, cvss.calculateScore().getTemporalScore(), 0);
+        assertEquals(4.7, cvss.calculateScore().getEnvironmentalScore(), 0);
+
+        // Environmental metrics are partially provided (only CR, IR, and MAV).
+        cvss = Cvss.fromVector("CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:L/E:X/RL:X/RC:X/CR:M/IR:M/AR:X/MAV:A/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X");
+        assertEquals(6.2, cvss.calculateScore().getBaseScore(), 0);
+        assertEquals(6.2, cvss.calculateScore().getTemporalScore(), 0);
+        assertEquals(5.9, cvss.calculateScore().getEnvironmentalScore(), 0);
+    }
+
+    @Test
     public void testRegexPattern() {
         // Without temporal vector elements
         String cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H";
