@@ -28,7 +28,7 @@
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <!-- Maven Plugin Versions -->
         <maven.cyclonedx.plugin.version>2.7.11</maven.cyclonedx.plugin.version>
-        <maven.javadoc.plugin.version>3.6.0</maven.javadoc.plugin.version>
+        <maven.javadoc.plugin.version>3.6.3</maven.javadoc.plugin.version>
         <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
     </properties>
 
