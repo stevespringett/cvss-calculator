@@ -266,7 +266,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.2, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H", cvssV3.getVector());
         Assert.assertEquals(CvssV3.Exploitability.NOT_DEFINED, cvssV3.getExploitability());
 
         cvssV3.exploitability(CvssV3.Exploitability.UNPROVEN);
@@ -275,7 +275,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(6.6, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:U/RL:X/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:U", cvssV3.getVector());
         Assert.assertEquals(CvssV3.Exploitability.UNPROVEN, cvssV3.getExploitability());
 
         cvssV3.exploitability(CvssV3.Exploitability.POC);
@@ -284,7 +284,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(6.8, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:P/RL:X/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:P", cvssV3.getVector());
         Assert.assertEquals(CvssV3.Exploitability.POC, cvssV3.getExploitability());
 
         cvssV3.exploitability(CvssV3.Exploitability.FUNCTIONAL);
@@ -293,7 +293,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.0, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:F/RL:X/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:F", cvssV3.getVector());
         Assert.assertEquals(CvssV3.Exploitability.FUNCTIONAL, cvssV3.getExploitability());
 
         cvssV3.exploitability(CvssV3.Exploitability.HIGH);
@@ -302,7 +302,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.2, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:H/RL:X/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:H", cvssV3.getVector());
         Assert.assertEquals(CvssV3.Exploitability.HIGH, cvssV3.getExploitability());
     }
 
@@ -317,7 +317,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(6.9, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:O/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RL:O", cvssV3.getVector());
         Assert.assertEquals(CvssV3.RemediationLevel.OFFICIAL, cvssV3.getRemediationLevel());
 
         cvssV3.remediationLevel(CvssV3.RemediationLevel.TEMPORARY);
@@ -326,7 +326,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.0, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:T/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RL:T", cvssV3.getVector());
         Assert.assertEquals(CvssV3.RemediationLevel.TEMPORARY, cvssV3.getRemediationLevel());
 
         cvssV3.remediationLevel(CvssV3.RemediationLevel.WORKAROUND);
@@ -335,7 +335,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.0, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:W/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RL:W", cvssV3.getVector());
         Assert.assertEquals(CvssV3.RemediationLevel.WORKAROUND, cvssV3.getRemediationLevel());
 
         cvssV3.remediationLevel(CvssV3.RemediationLevel.UNAVAILABLE);
@@ -344,7 +344,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.2, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:U/RC:X", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RL:U", cvssV3.getVector());
         Assert.assertEquals(CvssV3.RemediationLevel.UNAVAILABLE, cvssV3.getRemediationLevel());
     }
 
@@ -359,7 +359,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(6.7, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:U", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RC:U", cvssV3.getVector());
         Assert.assertEquals(CvssV3.ReportConfidence.UNKNOWN, cvssV3.getReportConfidence());
 
         cvssV3.reportConfidence(CvssV3.ReportConfidence.REASONABLE);
@@ -368,7 +368,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.0, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:R", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RC:R", cvssV3.getVector());
         Assert.assertEquals(CvssV3.ReportConfidence.REASONABLE, cvssV3.getReportConfidence());
 
         cvssV3.reportConfidence(CvssV3.ReportConfidence.CONFIRMED);
@@ -377,7 +377,7 @@ public class CvssV3Test {
         Assert.assertEquals(5.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(1.2, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(7.2, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C", cvssV3.getVector());
+        Assert.assertEquals(null, "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RC:C", cvssV3.getVector());
         Assert.assertEquals(CvssV3.ReportConfidence.CONFIRMED, cvssV3.getReportConfidence());
     }
 
@@ -393,6 +393,17 @@ public class CvssV3Test {
         cvss3Vector = "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:C";
         cvssV3 = Cvss.fromVector(cvss3Vector);
         Assert.assertNotNull(cvssV3);
-        Assert.assertEquals(cvss3Vector, cvssV3.getVector());
+        Assert.assertEquals("CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/RC:C", cvssV3.getVector());
     }
+
+    @Test
+    public void testTemporalScoreWithPartiallyProvidedMetrics() {
+        final Cvss cvss = Cvss.fromVector("CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:L/E:F");
+        final Score score = cvss.calculateScore();
+
+        Assert.assertEquals(7.6, score.getBaseScore(), 0);
+        Assert.assertEquals(7.4, score.getTemporalScore(), 0);
+        Assert.assertEquals(-1.0, score.getEnvironmentalScore(), 0); // TODO: Should be 7.4 (https://github.com/stevespringett/cvss-calculator/issues/66)
+    }
+
 }

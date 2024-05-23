@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,126 +15,137 @@ public class CvssV3_1 extends CvssV3 {
     static final String VECTOR_PREFIX = "CVSS:3.1";
 
     /**** Environmental Score Metric Group ****/
-    protected ModifiedAttackVector mav;
-    protected ModifiedAttackComplexity mac;
-    protected ModifiedPrivilegesRequired mpr;
-    protected ModifiedUserInteraction mui;
-    protected ModifiedScope ms;
-    protected ModifiedCIA mc;
-    protected ModifiedCIA mi;
-    protected ModifiedCIA ma;
+    protected ModifiedAttackVector mav = ModifiedAttackVector.NOT_DEFINED;
+    protected ModifiedAttackComplexity mac = ModifiedAttackComplexity.NOT_DEFINED;
+    protected ModifiedPrivilegesRequired mpr = ModifiedPrivilegesRequired.NOT_DEFINED;
+    protected ModifiedUserInteraction mui = ModifiedUserInteraction.NOT_DEFINED;
+    protected ModifiedScope ms = ModifiedScope.NOT_DEFINED;
+    protected ModifiedCIA mc = ModifiedCIA.NOT_DEFINED;
+    protected ModifiedCIA mi = ModifiedCIA.NOT_DEFINED;
+    protected ModifiedCIA ma = ModifiedCIA.NOT_DEFINED;
 
-    protected ConfidentialityRequirement cr;
-    protected IntegrityRequirement ir;
-    protected AvailabilityRequirement ar;
+    protected ConfidentialityRequirement cr = ConfidentialityRequirement.NOT_DEFINED;
+    protected IntegrityRequirement ir = IntegrityRequirement.NOT_DEFINED;
+    protected AvailabilityRequirement ar = AvailabilityRequirement.NOT_DEFINED;
 
+    @Override
     public CvssV3_1 attackVector(AttackVector av) {
-        this.av = av;
+        this.av = Objects.requireNonNull(av);
         return this;
     }
 
+    @Override
     public CvssV3_1 attackComplexity(AttackComplexity ac) {
-        this.ac = ac;
+        this.ac = Objects.requireNonNull(ac);
         return this;
     }
 
+    @Override
     public CvssV3_1 privilegesRequired(PrivilegesRequired pr) {
-        this.pr = pr;
+        this.pr = Objects.requireNonNull(pr);
         return this;
     }
 
+    @Override
     public CvssV3_1 userInteraction(UserInteraction ui) {
-        this.ui = ui;
+        this.ui = Objects.requireNonNull(ui);
         return this;
     }
 
+    @Override
     public CvssV3_1 scope(Scope s) {
-        this.s = s;
+        this.s = Objects.requireNonNull(s);
         return this;
     }
 
+    @Override
     public CvssV3_1 confidentiality(CIA c) {
-        this.c = c;
+        this.c = Objects.requireNonNull(c);
         return this;
     }
 
+    @Override
     public CvssV3_1 integrity(CIA i) {
-        this.i = i;
+        this.i = Objects.requireNonNull(i);
         return this;
     }
 
+    @Override
     public CvssV3_1 availability(CIA a) {
-        this.a = a;
+        this.a = Objects.requireNonNull(a);
         return this;
     }
 
+    @Override
     public CvssV3_1 exploitability(Exploitability e) {
-        this.e = e;
+        this.e = Objects.requireNonNull(e);
         return this;
     }
 
+    @Override
     public CvssV3_1 remediationLevel(RemediationLevel rl) {
-        this.rl = rl;
+        this.rl = Objects.requireNonNull(rl);
         return this;
     }
 
+    @Override
     public CvssV3_1 reportConfidence(ReportConfidence rc) {
-        this.rc = rc;
+        this.rc = Objects.requireNonNull(rc);
         return this;
     }
 
     public CvssV3_1 confidentialityRequirement(ConfidentialityRequirement cr) {
-        this.cr = cr;
+        this.cr = Objects.requireNonNull(cr);
         return this;
     }
 
     public CvssV3_1 integrityRequirement(IntegrityRequirement ir) {
-        this.ir = ir;
+        this.ir = Objects.requireNonNull(ir);
         return this;
     }
 
     public CvssV3_1 availabilityRequirement(AvailabilityRequirement ar) {
-        this.ar = ar;
+        this.ar = Objects.requireNonNull(ar);
         return this;
     }
 
     public CvssV3_1 modifiedAttackVector(ModifiedAttackVector mav) {
-        this.mav = mav;
+        this.mav = Objects.requireNonNull(mav);
         return this;
     }
 
     public CvssV3_1 modifiedAttackComplexity(ModifiedAttackComplexity mac) {
-        this.mac = mac;
+        this.mac = Objects.requireNonNull(mac);
         return this;
     }
 
     public CvssV3_1 modifiedPrivilegesRequired(ModifiedPrivilegesRequired mpr) {
-        this.mpr = mpr;
+        this.mpr = Objects.requireNonNull(mpr);
         return this;
     }
 
     public CvssV3_1 modifiedUserInteraction(ModifiedUserInteraction mui) {
-        this.mui = mui;
+        this.mui = Objects.requireNonNull(mui);
         return this;
     }
 
     public CvssV3_1 modifiedScope(ModifiedScope ms) {
-        this.ms = ms;
+        this.ms = Objects.requireNonNull(ms);
         return this;
     }
 
     public CvssV3_1 modifiedConfidentialityImpact(ModifiedCIA mc) {
-        this.mc = mc;
+        this.mc = Objects.requireNonNull(mc);
         return this;
     }
 
     public CvssV3_1 modifiedIntegrityImpact(ModifiedCIA mi) {
-        this.mi = mi;
+        this.mi = Objects.requireNonNull(mi);
         return this;
     }
 
     public CvssV3_1 modifiedAvailabilityImpact(ModifiedCIA ma) {
-        this.ma = ma;
+        this.ma = Objects.requireNonNull(ma);
         return this;
     }
 
@@ -240,47 +252,47 @@ public class CvssV3_1 extends CvssV3 {
                 "A:" + a.shorthand
         ));
 
-        if (e != null) {
+        if (e != Exploitability.NOT_DEFINED) {
             vectorParts.add("E:" + e.shorthand);
         }
-        if (rl != null) {
+        if (rl != RemediationLevel.NOT_DEFINED) {
             vectorParts.add("RL:" + rl.shorthand);
         }
-        if (rc != null) {
+        if (rc != ReportConfidence.NOT_DEFINED) {
             vectorParts.add("RC:" + rc.shorthand);
         }
 
-        if (cr != null) {
+        if (cr != ConfidentialityRequirement.NOT_DEFINED) {
             vectorParts.add("CR:" + cr.shorthand);
         }
-        if (ir != null) {
+        if (ir != IntegrityRequirement.NOT_DEFINED) {
             vectorParts.add("IR:" + ir.shorthand);
         }
-        if (ar != null) {
+        if (ar != AvailabilityRequirement.NOT_DEFINED) {
             vectorParts.add("AR:" + ar.shorthand);
         }
-        if (mav != null) {
+        if (mav != ModifiedAttackVector.NOT_DEFINED) {
             vectorParts.add("MAV:" + mav.shorthand);
         }
-        if (mac != null) {
+        if (mac != ModifiedAttackComplexity.NOT_DEFINED) {
             vectorParts.add("MAC:" + mac.shorthand);
         }
-        if (mpr != null) {
+        if (mpr != ModifiedPrivilegesRequired.NOT_DEFINED) {
             vectorParts.add("MPR:" + mpr.shorthand);
         }
-        if (mui != null) {
+        if (mui != ModifiedUserInteraction.NOT_DEFINED) {
             vectorParts.add("MUI:" + mui.shorthand);
         }
-        if (ms != null) {
+        if (ms != ModifiedScope.NOT_DEFINED) {
             vectorParts.add("MS:" + ms.shorthand);
         }
-        if (mc != null) {
+        if (mc != ModifiedCIA.NOT_DEFINED) {
             vectorParts.add("MC:" + mc.shorthand);
         }
-        if (mi != null) {
+        if (mi != ModifiedCIA.NOT_DEFINED) {
             vectorParts.add("MI:" + mi.shorthand);
         }
-        if (ma != null) {
+        if (ma != ModifiedCIA.NOT_DEFINED) {
             vectorParts.add("MA:" + ma.shorthand);
         }
 

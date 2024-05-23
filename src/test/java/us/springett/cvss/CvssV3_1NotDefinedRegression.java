@@ -16,7 +16,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/E:X/RL:X/RC:X/CR:X/IR:H/AR:H/MAV:A/MAC:H/MPR:H/MUI:X/MS:U/MC:H/MI:H/MA:H", vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAV:A/MAC:H/MPR:H/MS:U/MC:H/MI:H/MA:H", vector.getVector());
         assertEquals(6.4, environmentalScore, 0.01);
     }
 
@@ -31,7 +31,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/E:X/RL:X/RC:X/CR:X/IR:H/AR:H/MAV:A/MAC:H/MPR:X/MUI:N/MS:U/MC:H/MI:H/MA:H", vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAV:A/MAC:H/MUI:N/MS:U/MC:H/MI:H/MA:H", vector.getVector());
         assertEquals(7.5, environmentalScore, 0.01);
     }
 
@@ -46,7 +46,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/E:X/RL:X/RC:X/CR:X/IR:H/AR:H/MAV:A/MAC:X/MPR:N/MUI:N/MS:U/MC:H/MI:H/MA:H", vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAV:A/MPR:N/MUI:N/MS:U/MC:H/MI:H/MA:H", vector.getVector());
         assertEquals(7.5, environmentalScore, 0.01);
     }
 
@@ -61,7 +61,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/E:X/RL:X/RC:X/CR:X/IR:H/AR:H/MAV:X/MAC:H/MPR:N/MUI:N/MS:U/MC:H/MI:H/MA:H", vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAC:H/MPR:N/MUI:N/MS:U/MC:H/MI:H/MA:H", vector.getVector());
         assertEquals(8.1, environmentalScore, 0.01);
     }
 
@@ -77,7 +77,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals(vectorString, vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAV:A/MAC:H/MPR:N/MUI:N/MC:H/MI:H/MA:H", vector.getVector());
         assertEquals(7.5, environmentalScore, 0.01);
     }
 
@@ -88,7 +88,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals(vectorString, vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAV:A/MAC:H/MPR:N/MUI:N/MS:U/MI:H/MA:H", vector.getVector());
         assertEquals(7.5, environmentalScore, 0.01);
     }
 
@@ -99,7 +99,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals(vectorString, vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAV:A/MAC:H/MPR:N/MUI:N/MS:U/MC:H/MA:H", vector.getVector());
         assertEquals(7.5, environmentalScore, 0.01);
     }
 
@@ -110,7 +110,7 @@ public class CvssV3_1NotDefinedRegression {
 
         double environmentalScore = vector.calculateScore().getEnvironmentalScore();
 
-        assertEquals(vectorString, vector.getVector());
+        assertEquals("CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:H/IR:H/AR:H/MAV:A/MAC:H/MPR:N/MUI:N/MS:U/MC:H/MI:H", vector.getVector());
         assertEquals(7.5, environmentalScore, 0.01);
     }
 }

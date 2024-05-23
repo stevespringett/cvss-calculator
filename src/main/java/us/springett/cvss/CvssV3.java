@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,65 +44,65 @@ public class CvssV3 implements Cvss {
     protected PrivilegesRequired pr;
     protected UserInteraction ui;
     protected Scope s;
-    protected Exploitability e;
-    protected RemediationLevel rl;
-    protected ReportConfidence rc;
+    protected Exploitability e = Exploitability.NOT_DEFINED;
+    protected RemediationLevel rl = RemediationLevel.NOT_DEFINED;
+    protected ReportConfidence rc = ReportConfidence.NOT_DEFINED;
     protected CIA c;
     protected CIA i;
     protected CIA a;
 
     public CvssV3 attackVector(AttackVector av) {
-        this.av = av;
+        this.av = Objects.requireNonNull(av);
         return this;
     }
 
     public CvssV3 attackComplexity(AttackComplexity ac) {
-        this.ac = ac;
+        this.ac = Objects.requireNonNull(ac);
         return this;
     }
 
     public CvssV3 privilegesRequired(PrivilegesRequired pr) {
-        this.pr = pr;
+        this.pr = Objects.requireNonNull(pr);
         return this;
     }
 
     public CvssV3 userInteraction(UserInteraction ui) {
-        this.ui = ui;
+        this.ui = Objects.requireNonNull(ui);
         return this;
     }
 
     public CvssV3 scope(Scope s) {
-        this.s = s;
+        this.s = Objects.requireNonNull(s);
         return this;
     }
 
     public CvssV3 confidentiality(CIA c) {
-        this.c = c;
+        this.c = Objects.requireNonNull(c);
         return this;
     }
 
     public CvssV3 integrity(CIA i) {
-        this.i = i;
+        this.i = Objects.requireNonNull(i);
         return this;
     }
 
     public CvssV3 availability(CIA a) {
-        this.a = a;
+        this.a = Objects.requireNonNull(a);
         return this;
     }
 
     public CvssV3 exploitability(Exploitability e) {
-        this.e = e;
+        this.e = Objects.requireNonNull(e);
         return this;
     }
 
     public CvssV3 remediationLevel(RemediationLevel rl) {
-        this.rl = rl;
+        this.rl = Objects.requireNonNull(rl);
         return this;
     }
 
     public CvssV3 reportConfidence(ReportConfidence rc) {
-        this.rc = rc;
+        this.rc = Objects.requireNonNull(rc);
         return this;
     }
 
@@ -473,13 +474,13 @@ public class CvssV3 implements Cvss {
                 "A:" + a.shorthand
         ));
 
-        if (e != null) {
+        if (e != Exploitability.NOT_DEFINED) {
             vectorParts.add("E:" + e.shorthand);
         }
-        if (rl != null) {
+        if (rl != RemediationLevel.NOT_DEFINED) {
             vectorParts.add("RL:" + rl.shorthand);
         }
-        if (rc != null) {
+        if (rc != ReportConfidence.NOT_DEFINED) {
             vectorParts.add("RC:" + rc.shorthand);
         }
 

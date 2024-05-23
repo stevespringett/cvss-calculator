@@ -147,6 +147,14 @@ public class CvssFromVectorTest {
             }
 
             try {
+                // Sanity check; Calculation should never fail when parsing succeeded.
+                cvss.calculateScore();
+            } catch (RuntimeException e) {
+                Assert.fail("Expected #calculateScore to not fail, but it failed with: " + e.getMessage());
+            }
+
+            try {
+                // Sanity check; Vector construction should never fail when parsing succeeded.
                 cvss.getVector();
             } catch (RuntimeException e) {
                 Assert.fail("Expected #getVector invocation to not fail, but it failed with: " + e.getMessage());
