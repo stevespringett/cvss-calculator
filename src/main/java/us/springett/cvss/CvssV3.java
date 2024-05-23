@@ -333,6 +333,10 @@ public class CvssV3 implements Cvss {
     }
 
     protected double roundNearestTenth(double d) {
+        if (d < 0) {
+            return 0;
+        }
+
         return Math.round(d * 10.0) / 10.0;
     }
 
