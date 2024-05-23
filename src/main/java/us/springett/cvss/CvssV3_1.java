@@ -1,6 +1,17 @@
 package us.springett.cvss;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static us.springett.cvss.Parser.requireNonNull;
+
 public class CvssV3_1 extends CvssV3 {
+
+    static final String VECTOR_PREFIX = "CVSS:3.1";
 
     /**** Environmental Score Metric Group ****/
     protected ModifiedAttackVector mav;
@@ -217,30 +228,63 @@ public class CvssV3_1 extends CvssV3 {
      * {@inheritDoc}
      */
     public String getVector() {
-        return "CVSS:3.1/" +
-                "AV:" + av.shorthand + "/" +
-                "AC:" + ac.shorthand + "/" +
-                "PR:" + pr.shorthand + "/" +
-                "UI:" + ui.shorthand + "/" +
-                "S:" + s.shorthand + "/" +
-                "C:" + c.shorthand + "/" +
-                "I:" + i.shorthand + "/" +
-                "A:" + a.shorthand +
-                ((e != null && rl != null && rc != null) ? (
-                        "/E:" + e.shorthand + "/" +
-                                "RL:" + rl.shorthand + "/" +
-                                "RC:" + rc.shorthand) : "") +
-                "/CR:" + cr.shorthand + "/" +
-                "IR:" + ir.shorthand + "/" +
-                "AR:" + ar.shorthand + "/" +
-                "MAV:" + mav.shorthand + "/" +
-                "MAC:" + mac.shorthand + "/" +
-                "MPR:" + mpr.shorthand + "/" +
-                "MUI:" + mui.shorthand + "/" +
-                "MS:" + ms.shorthand + "/" +
-                "MC:" + mc.shorthand + "/" +
-                "MI:" + mi.shorthand + "/" +
-                "MA:" + ma.shorthand;
+        final List<String> vectorParts = new ArrayList<>(Arrays.asList(
+                VECTOR_PREFIX,
+                "AV:" + av.shorthand,
+                "AC:" + ac.shorthand,
+                "PR:" + pr.shorthand,
+                "UI:" + ui.shorthand,
+                "S:" + s.shorthand,
+                "C:" + c.shorthand,
+                "I:" + i.shorthand,
+                "A:" + a.shorthand
+        ));
+
+        if (e != null) {
+            vectorParts.add("E:" + e.shorthand);
+        }
+        if (rl != null) {
+            vectorParts.add("RL:" + rl.shorthand);
+        }
+        if (rc != null) {
+            vectorParts.add("RC:" + rc.shorthand);
+        }
+
+        if (cr != null) {
+            vectorParts.add("CR:" + cr.shorthand);
+        }
+        if (ir != null) {
+            vectorParts.add("IR:" + ir.shorthand);
+        }
+        if (ar != null) {
+            vectorParts.add("AR:" + ar.shorthand);
+        }
+        if (mav != null) {
+            vectorParts.add("MAV:" + mav.shorthand);
+        }
+        if (mac != null) {
+            vectorParts.add("MAC:" + mac.shorthand);
+        }
+        if (mpr != null) {
+            vectorParts.add("MPR:" + mpr.shorthand);
+        }
+        if (mui != null) {
+            vectorParts.add("MUI:" + mui.shorthand);
+        }
+        if (ms != null) {
+            vectorParts.add("MS:" + ms.shorthand);
+        }
+        if (mc != null) {
+            vectorParts.add("MC:" + mc.shorthand);
+        }
+        if (mi != null) {
+            vectorParts.add("MI:" + mi.shorthand);
+        }
+        if (ma != null) {
+            vectorParts.add("MA:" + ma.shorthand);
+        }
+
+        return String.join("/", vectorParts);
     }
 
     public ModifiedAttackVector getModifiedAttackVector() {
@@ -502,4 +546,131 @@ public class CvssV3_1 extends CvssV3 {
             return null;
         }
     }
+
+    static final class Parser implements us.springett.cvss.Parser<CvssV3_1> {
+
+        private static final List<String> MANDATORY_METRICS = Arrays.asList(
+                "AV", "AC", "PR", "UI", "S", "C", "I", "A" // Base metrics.
+        );
+
+        @Override
+        public CvssV3_1 parseVector(final String vector) {
+            if (vector == null || vector.isEmpty()) {
+                throw new MalformedVectorException("Vector must not be null or empty");
+            }
+
+            final String[] segments = vector.split("/");
+            if (segments.length < (1 + MANDATORY_METRICS.size())) {
+                throw new MalformedVectorException(String.format(
+                        "Vector must consist of at least %d segments (%s prefix and mandatory metrics %s), but has only %s",
+                        (1 + MANDATORY_METRICS.size()), VECTOR_PREFIX, String.join(", ", MANDATORY_METRICS), segments.length
+                ));
+            }
+            if (!VECTOR_PREFIX.equals(segments[0])) {
+                throw new MalformedVectorException("Missing \"" + VECTOR_PREFIX + "\" prefix");
+            }
+
+            final CvssV3_1 cvss = new CvssV3_1();
+            final Set<String> metricsSeen = new HashSet<>();
+            for (int i = 1; i < segments.length; i++) {
+                final String[] metricParts = segments[i].split(":", 2);
+                if (metricParts.length < 2) {
+                    throw new MalformedVectorException(String.format(
+                            "Segment #%d is malformed; Expected format <METRIC>:<VALUE>, but got \"%s\"",
+                            (i + 1), segments[i]
+                    ));
+                }
+
+                final String metric = metricParts[0];
+                final char metricValue = metricParts[1].charAt(0);
+
+                switch (metric) {
+                    // Base.
+                    case "AV":
+                        cvss.attackVector(requireNonNull(metric, metricValue, AttackVector::fromChar));
+                        break;
+                    case "AC":
+                        cvss.attackComplexity(requireNonNull(metric, metricValue, AttackComplexity::fromChar));
+                        break;
+                    case "PR":
+                        cvss.privilegesRequired(requireNonNull(metric, metricValue, PrivilegesRequired::fromChar));
+                        break;
+                    case "UI":
+                        cvss.userInteraction(requireNonNull(metric, metricValue, UserInteraction::fromChar));
+                        break;
+                    case "S":
+                        cvss.scope(requireNonNull(metric, metricValue, Scope::fromChar));
+                        break;
+                    case "C":
+                        cvss.confidentiality(requireNonNull(metric, metricValue, CIA::fromString));
+                        break;
+                    case "I":
+                        cvss.integrity(requireNonNull(metric, metricValue, CIA::fromString));
+                        break;
+                    case "A":
+                        cvss.availability(requireNonNull(metric, metricValue, CIA::fromString));
+                        break;
+                    // Temporal.
+                    case "E":
+                        cvss.exploitability(requireNonNull(metric, metricValue, Exploitability::fromChar));
+                        break;
+                    case "RL":
+                        cvss.remediationLevel(requireNonNull(metric, metricValue, RemediationLevel::fromChar));
+                        break;
+                    case "RC":
+                        cvss.reportConfidence(requireNonNull(metric, metricValue, ReportConfidence::fromChar));
+                        break;
+                    // Environmental.
+                    case "CR":
+                        cvss.confidentialityRequirement(requireNonNull(metric, metricValue, ConfidentialityRequirement::fromChar));
+                        break;
+                    case "IR":
+                        cvss.integrityRequirement(requireNonNull(metric, metricValue, IntegrityRequirement::fromChar));
+                        break;
+                    case "AR":
+                        cvss.availabilityRequirement(requireNonNull(metric, metricValue, AvailabilityRequirement::fromChar));
+                        break;
+                    case "MAV":
+                        cvss.modifiedAttackVector(requireNonNull(metric, metricValue, ModifiedAttackVector::fromChar));
+                        break;
+                    case "MAC":
+                        cvss.modifiedAttackComplexity(requireNonNull(metric, metricValue, ModifiedAttackComplexity::fromChar));
+                        break;
+                    case "MPR":
+                        cvss.modifiedPrivilegesRequired(requireNonNull(metric, metricValue, ModifiedPrivilegesRequired::fromChar));
+                        break;
+                    case "MUI":
+                        cvss.modifiedUserInteraction(requireNonNull(metric, metricValue, ModifiedUserInteraction::fromChar));
+                        break;
+                    case "MS":
+                        cvss.modifiedScope(requireNonNull(metric, metricValue, ModifiedScope::fromChar));
+                        break;
+                    case "MC":
+                        cvss.modifiedConfidentialityImpact(requireNonNull(metric, metricValue, ModifiedCIA::fromChar));
+                        break;
+                    case "MI":
+                        cvss.modifiedIntegrityImpact(requireNonNull(metric, metricValue, ModifiedCIA::fromChar));
+                        break;
+                    case "MA":
+                        cvss.modifiedAvailabilityImpact(requireNonNull(metric, metricValue, ModifiedCIA::fromChar));
+                        break;
+                    default:
+                        throw new MalformedVectorException("Unknown metric: " + metric);
+                }
+
+                metricsSeen.add(metric);
+            }
+
+            final List<String> missingMetrics = MANDATORY_METRICS.stream()
+                    .filter(metric -> !metricsSeen.contains(metric))
+                    .collect(Collectors.toList());
+            if (!missingMetrics.isEmpty()) {
+                throw new MalformedVectorException("Missing mandatory metrics: " + String.join(", ", missingMetrics));
+            }
+
+            return cvss;
+        }
+
+    }
+
 }
