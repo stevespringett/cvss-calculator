@@ -130,79 +130,78 @@ public class CvssV3_1 extends CvssV3 {
      * {@inheritDoc}
      */
     public Score calculateScore() {
+        // PrivilegesRequired (PR) depends on the value of Scope (S)
         final double prWeight = (Scope.UNCHANGED == s) ? pr.weight : pr.scopeChangedWeight;
-        final double mprWeight;
 
-        final double exploitabilitySubScore = exploitabilityCoefficient * av.weight * ac.weight * prWeight * ui.weight;
-        final double modifiedExploitabilitySubScore;
-        final double impactSubScoreMultiplier = 1 - ((1 - c.weight) * (1 - i.weight) * (1 - a.weight));
-        final double modifiedImpactSubScoreMultiplier = Math.min(1 - ((1 - cr.weight * mc.weight) * (1 - ir.weight * mi.weight) * (1 - ar.weight * ma.weight)), 0.915);
+        // For metrics that are modified versions of Base Score metrics,
+        // use the value of the Base Score metric if the modified version value is "X" ("not defined").
+        final double mavWeight = (mav == ModifiedAttackVector.NOT_DEFINED) ? av.weight : mav.weight;
+        final double macWeight = (mac == ModifiedAttackComplexity.NOT_DEFINED) ? ac.weight : mac.weight;
+        final double muiWeight = (mui == ModifiedUserInteraction.NOT_DEFINED) ? ui.weight : mui.weight;
+        final double mcWeight = (mc == ModifiedCIA.NOT_DEFINED) ? c.weight : mc.weight;
+        final double miWeight = (mi == ModifiedCIA.NOT_DEFINED) ? i.weight : mi.weight;
+        final double maWeight = (ma == ModifiedCIA.NOT_DEFINED) ? a.weight : ma.weight;
+        final double msWeight = (ms == ModifiedScope.NOT_DEFINED) ? s.weight : ms.weight;
+
+        // ModifiedPrivilegesRequired (MPR) depends on the value of Modified Scope (MS),
+        // or Scope (S) if MS is "X" (not defined).
+        final double mprWeight;
+        if (ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)) {
+            mprWeight = (mpr == ModifiedPrivilegesRequired.NOT_DEFINED) ? pr.weight : mpr.weight;
+        } else {
+            mprWeight = (mpr == ModifiedPrivilegesRequired.NOT_DEFINED) ? pr.scopeChangedWeight : mpr.scopeChangedWeight;
+        }
+
+        final double impactSubScore = (1 - ((1 - c.weight) * (1 - i.weight) * (1 - a.weight)));
+        final double exploitability = exploitabilityCoefficient * av.weight * ac.weight * prWeight * ui.weight;
+
+        final double impact;
+        if (s == Scope.UNCHANGED) {
+            impact = s.weight * impactSubScore;
+        } else {
+            impact = s.weight * (impactSubScore - 0.029) - 3.25 * Math.pow((impactSubScore - 0.02), 15);
+        }
 
         final double baseScore;
-        double impactSubScore;
-        final double temporalScore;
-        final double environmentalScore;
-        double modifiedImpactSubScore;
-
-        if (Scope.UNCHANGED == s) {
-            impactSubScore = s.weight * impactSubScoreMultiplier;
-        } else {
-            impactSubScore = s.weight * (impactSubScoreMultiplier - 0.029) - 3.25 * Math.pow(impactSubScoreMultiplier - 0.02, 15);
-        }
-
-        if (impactSubScore <= 0) {
+        if (impact <= 0) {
             baseScore = 0;
-            impactSubScore = 0;
         } else {
-            if (Scope.UNCHANGED == s) {
-                baseScore = roundUp1(Math.min((impactSubScore + exploitabilitySubScore), 10));
+            if (s == Scope.UNCHANGED) {
+                baseScore = roundUp1(Math.min((exploitability + impact), 10));
             } else {
-                baseScore = roundUp1(Math.min((impactSubScore + exploitabilitySubScore) * scopeCoefficient, 10));
+                baseScore = roundUp1(Math.min((scopeCoefficient * (exploitability + impact)), 10));
             }
         }
 
-        temporalScore = roundUp1(baseScore * e.weight * rl.weight * rc.weight);
+        final double temporalScore = roundUp1(baseScore * e.weight * rl.weight * rc.weight);
 
-        boolean mprNotDefined = mpr == ModifiedPrivilegesRequired.NOT_DEFINED;
-        if (ModifiedScope.UNCHANGED == ms) {
-            mprWeight = mprNotDefined ? pr.weight : mpr.weight;
-            modifiedImpactSubScore = ms.weight * modifiedImpactSubScoreMultiplier;
-        } else if (ModifiedScope.CHANGED == ms) {
-            mprWeight = mprNotDefined ? pr.scopeChangedWeight : mpr.scopeChangedWeight;
-            modifiedImpactSubScore = ms.weight * (modifiedImpactSubScoreMultiplier - 0.029) - 3.25 * Math.pow((modifiedImpactSubScoreMultiplier * 0.9731 - 0.02), 13);
+        final double modifiedImpactSubScore = Math.min(1 - ((1 - mcWeight * cr.weight) * (1 - miWeight * ir.weight) * (1 - maWeight * ar.weight)), 0.915);
+        final double modifiedExploitability = exploitabilityCoefficient * mavWeight * macWeight * mprWeight * muiWeight;
+
+        final double modifiedImpact;
+        if (ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)) {
+            modifiedImpact = msWeight * modifiedImpactSubScore;
         } else {
-            if (Scope.UNCHANGED == s){
-                mprWeight = mprNotDefined ? pr.weight : mpr.weight;
-                modifiedImpactSubScore = s.weight * modifiedImpactSubScoreMultiplier;
-            } else {
-                mprWeight = mprNotDefined ? pr.scopeChangedWeight : mpr.scopeChangedWeight;
-                modifiedImpactSubScore = s.weight * (modifiedImpactSubScoreMultiplier - 0.029) - 3.25 * Math.pow((modifiedImpactSubScoreMultiplier * 0.9731 - 0.02), 13);
-            }
-//            mprWeight = 0;
-//            modifiedImpactSubScore = 0;
+            modifiedImpact = msWeight * (modifiedImpactSubScore - 0.029) - 3.25 * Math.pow((modifiedImpactSubScore * 0.9731 - 0.02), 13);
         }
 
-        double mavWeight = mav == ModifiedAttackVector.NOT_DEFINED ? av.weight : mav.weight;
-        double macWeight = mac == ModifiedAttackComplexity.NOT_DEFINED ? ac.weight : mac.weight;
-        double muiWeight = mui == ModifiedUserInteraction.NOT_DEFINED ? ui.weight : mui.weight;
-        modifiedExploitabilitySubScore = exploitabilityCoefficient * mavWeight * macWeight * mprWeight * muiWeight;
-
-        if (modifiedImpactSubScore <= 0) {
-            environmentalScore = 0;
-            modifiedImpactSubScore = 0;
+        final double envScore;
+        if (modifiedImpact <= 0) {
+            envScore = 0;
+        } else if (ms == ModifiedScope.UNCHANGED || (ms == ModifiedScope.NOT_DEFINED && s == Scope.UNCHANGED)) {
+            envScore = roundUp1(roundUp1(Math.min((modifiedImpact + modifiedExploitability), 10)) * e.weight * rl.weight * rc.weight);
         } else {
-            if (ModifiedScope.UNCHANGED == ms || (ModifiedScope.NOT_DEFINED == ms && Scope.UNCHANGED == s)) {
-                environmentalScore = roundUp1(roundUp1(Math.min((modifiedImpactSubScore + modifiedExploitabilitySubScore), 10)) * e.weight * rl.weight * rc.weight);
-            } else if (ModifiedScope.CHANGED == ms || (ModifiedScope.NOT_DEFINED == ms && Scope.CHANGED == s)) {
-                environmentalScore = roundUp1(roundUp1(Math.min(1.08 * (modifiedImpactSubScore + modifiedExploitabilitySubScore), 10)) * e.weight * rl.weight * rc.weight);
-            } else {
-                // throw new RuntimeException("This should never happen");
-                // This should never happen
-                environmentalScore = 0;
-            }
+            envScore = roundUp1(roundUp1(Math.min(scopeCoefficient * (modifiedImpact + modifiedExploitability), 10)) * e.weight * rl.weight * rc.weight);
         }
 
-        return new Score(baseScore, roundNearestTenth(impactSubScore), roundNearestTenth(exploitabilitySubScore), temporalScore, environmentalScore, roundNearestTenth(modifiedImpactSubScore));
+        return new Score(
+                roundNearestTenth(baseScore),
+                roundNearestTenth(impact),
+                roundNearestTenth(exploitability),
+                roundNearestTenth(temporalScore),
+                roundNearestTenth(envScore),
+                roundNearestTenth(modifiedImpact)
+        );
     }
 
     private double roundUp1(double d) {
