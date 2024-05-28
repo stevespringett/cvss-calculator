@@ -4,7 +4,7 @@
 
     <groupId>us.springett</groupId>
     <artifactId>cvss-calculator</artifactId>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.3</version>
     <packaging>jar</packaging>
 
     <name>CVSS Calculator</name>
@@ -47,7 +47,7 @@
         <connection>scm:git:git@github.com:stevespringett/cvss-calculator.git</connection>
         <url>https://github.com/stevespringett/cvss-calculator.git</url>
         <developerConnection>scm:git:git@github.com:stevespringett/cvss-calculator.git</developerConnection>
-        <tag>cvss-calculator-1.1.0</tag>
+        <tag>cvss-calculator-1.4.3</tag>
     </scm>
 
     <issueManagement>
