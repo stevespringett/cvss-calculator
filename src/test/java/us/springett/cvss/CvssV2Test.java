@@ -251,7 +251,7 @@ public class CvssV2Test {
         Assert.assertEquals(2.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(4.9, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(2.5, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:ND/RL:W/RC:C)", cvssV2Temporal.getVector());
+        Assert.assertEquals(null, "(AV:N/AC:H/Au:N/C:P/I:N/A:N/RL:W/RC:C)", cvssV2Temporal.getVector());
         Assert.assertEquals(CvssV2.Exploitability.NOT_DEFINED, cvssV2Temporal.getExploitability());
     }
 
@@ -298,7 +298,7 @@ public class CvssV2Test {
         Assert.assertEquals(2.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(4.9, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(2.5, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:F/RL:ND/RC:C)", cvssV2Temporal.getVector());
+        Assert.assertEquals(null, "(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:F/RC:C)", cvssV2Temporal.getVector());
         Assert.assertEquals(CvssV2.RemediationLevel.NOT_DEFINED, cvssV2Temporal.getRemediationLevel());
     }
 
@@ -336,7 +336,7 @@ public class CvssV2Test {
         Assert.assertEquals(2.9, score.getImpactSubScore(), 0);
         Assert.assertEquals(4.9, score.getExploitabilitySubScore(), 0);
         Assert.assertEquals(2.3, score.getTemporalScore(), 0);
-        Assert.assertEquals(null, "(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:F/RL:W/RC:ND)", cvssV2Temporal.getVector());
+        Assert.assertEquals(null, "(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:F/RL:W)", cvssV2Temporal.getVector());
         Assert.assertEquals(CvssV2.ReportConfidence.NOT_DEFINED, cvssV2Temporal.getReportConfidence());
     }
 
@@ -352,6 +352,17 @@ public class CvssV2Test {
         cvss2Vector = "(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:F/RL:W/RC:ND)";
         cvssV2 = Cvss.fromVector(cvss2Vector);
         Assert.assertNotNull(cvssV2);
-        Assert.assertEquals(cvss2Vector, cvssV2.getVector());
+        Assert.assertEquals("(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:F/RL:W)", cvssV2.getVector());
     }
+
+    @Test
+    public void testTemporalScoreWithPartiallyProvidedMetrics() {
+        final Cvss cvss = Cvss.fromVector("(AV:N/AC:H/Au:N/C:P/I:N/A:N/E:F)");
+        final Score score = cvss.calculateScore();
+
+        Assert.assertEquals(2.6, score.getBaseScore(), 0);
+        Assert.assertEquals(2.5, score.getTemporalScore(), 0);
+        Assert.assertEquals(-1.0, score.getEnvironmentalScore(), 0); // TODO: Should be 2.5 (https://github.com/stevespringett/cvss-calculator/issues/66)
+    }
+
 }

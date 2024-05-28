@@ -15,6 +15,16 @@
  */
 package us.springett.cvss;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static us.springett.cvss.Parser.requireNonNull;
+
 /**
  * Calculates CVSSv2 scores and vector.
  *
@@ -27,55 +37,55 @@ public class CvssV2 implements Cvss {
     private AttackVector av;
     private AttackComplexity ac;
     private Authentication au;
-    private Exploitability e;
-    private RemediationLevel rl;
-    private ReportConfidence rc;
+    private Exploitability e = Exploitability.NOT_DEFINED;
+    private RemediationLevel rl = RemediationLevel.NOT_DEFINED;
+    private ReportConfidence rc = ReportConfidence.NOT_DEFINED;
     private CIA c;
     private CIA i;
     private CIA a;
 
     public CvssV2 attackVector(AttackVector av) {
-        this.av = av;
+        this.av = Objects.requireNonNull(av);
         return this;
     }
 
     public CvssV2 attackComplexity(AttackComplexity ac) {
-        this.ac = ac;
+        this.ac = Objects.requireNonNull(ac);
         return this;
     }
 
     public CvssV2 authentication(Authentication au) {
-        this.au = au;
+        this.au = Objects.requireNonNull(au);
         return this;
     }
 
     public CvssV2 confidentiality(CIA c) {
-        this.c = c;
+        this.c = Objects.requireNonNull(c);
         return this;
     }
 
     public CvssV2 integrity(CIA i) {
-        this.i = i;
+        this.i = Objects.requireNonNull(i);
         return this;
     }
 
     public CvssV2 availability(CIA a) {
-        this.a = a;
+        this.a = Objects.requireNonNull(a);
         return this;
     }
 
     public CvssV2 exploitability(Exploitability e) {
-        this.e = e;
+        this.e = Objects.requireNonNull(e);
         return this;
     }
 
     public CvssV2 remediationLevel(RemediationLevel rl) {
-        this.rl = rl;
+        this.rl = Objects.requireNonNull(rl);
         return this;
     }
 
     public CvssV2 reportConfidence(ReportConfidence rc) {
-        this.rc = rc;
+        this.rc = Objects.requireNonNull(rc);
         return this;
     }
 
@@ -233,6 +243,99 @@ public class CvssV2 implements Cvss {
         }
     }
 
+    static final class Parser implements us.springett.cvss.Parser<CvssV2> {
+
+        private static final List<String> MANDATORY_METRICS = Arrays.asList(
+                "AV", "AC", "Au", "C", "I", "A" // Base metrics.
+        );
+
+        @Override
+        public CvssV2 parseVector(String vector) {
+            if (vector == null || vector.isEmpty()) {
+                throw new MalformedVectorException("Vector must not be null or empty");
+            }
+
+            vector = vector.replaceAll("^\\(|\\)$", "");
+
+            final String[] segments = vector.split("/");
+            if (segments.length < MANDATORY_METRICS.size()) {
+                throw new MalformedVectorException(String.format(
+                        "Vector must consist of at least %d segments (mandatory metrics %s), but has only %s",
+                        MANDATORY_METRICS.size(), String.join(", ", MANDATORY_METRICS), segments.length
+                ));
+            }
+
+            final CvssV2 cvss = new CvssV2();
+            final Set<String> metricsSeen = new HashSet<>();
+            for (int i = 0; i < segments.length; i++) {
+                final String[] metricParts = segments[i].split(":", 2);
+                if (metricParts.length < 2) {
+                    throw new MalformedVectorException(String.format(
+                            "Segment #%d is malformed; Expected format <METRIC>:<VALUE>, but got \"%s\"",
+                            (i + 1), segments[i]
+                    ));
+                }
+
+                final String metric = metricParts[0];
+                final char metricValue = metricParts[1].charAt(0);
+
+                switch (metric) {
+                    // Base.
+                    case "AV":
+                        cvss.attackVector(requireNonNull(metric, metricValue, AttackVector::fromChar));
+                        break;
+                    case "AC":
+                        cvss.attackComplexity(requireNonNull(metric, metricValue, AttackComplexity::fromChar));
+                        break;
+                    case "Au":
+                        cvss.authentication(requireNonNull(metric, metricValue, Authentication::fromChar));
+                        break;
+                    case "C":
+                        cvss.confidentiality(requireNonNull(metric, metricValue, CIA::fromChar));
+                        break;
+                    case "I":
+                        cvss.integrity(requireNonNull(metric, metricValue, CIA::fromChar));
+                        break;
+                    case "A":
+                        cvss.availability(requireNonNull(metric, metricValue, CIA::fromChar));
+                        break;
+                    // Temporal.
+                    case "E":
+                        cvss.exploitability(requireNonNull(metric, metricParts[1], Exploitability::fromString));
+                        break;
+                    case "RL":
+                        cvss.remediationLevel(requireNonNull(metric, metricParts[1], RemediationLevel::fromString));
+                        break;
+                    case "RC":
+                        cvss.reportConfidence(requireNonNull(metric, metricParts[1], ReportConfidence::fromString));
+                        break;
+                    // Environmental.
+                    case "CDP":
+                    case "TD":
+                    case "CR":
+                    case "IR":
+                    case "AR":
+                        // TODO: Handle these.
+                        break;
+                    default:
+                        throw new MalformedVectorException("Unknown metric: " + metric);
+                }
+
+                metricsSeen.add(metric);
+            }
+
+            final List<String> missingMetrics = MANDATORY_METRICS.stream()
+                    .filter(metric -> !metricsSeen.contains(metric))
+                    .collect(Collectors.toList());
+            if (!missingMetrics.isEmpty()) {
+                throw new MalformedVectorException("Missing mandatory metrics: " + String.join(", ", missingMetrics));
+            }
+
+            return cvss;
+        }
+
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -269,17 +372,26 @@ public class CvssV2 implements Cvss {
      * {@inheritDoc}
      */
     public String getVector() {
-        return "(" +
-                "AV:" + av.shorthand + "/" +
-                "AC:" + ac.shorthand + "/" +
-                "Au:" + au.shorthand + "/" +
-                "C:" + c.shorthand + "/" +
-                "I:" + i.shorthand + "/" +
-                "A:" + a.shorthand +
-                ((e != null && rl != null && rc != null) ? (
-                        "/E:" + e.shorthand + "/" +
-                        "RL:" + rl.shorthand + "/" +
-                        "RC:" + rc.shorthand + ")") : ")");
+        final List<String> vectorParts = new ArrayList<>(Arrays.asList(
+                "AV:" + av.shorthand,
+                "AC:" + ac.shorthand,
+                "Au:" + au.shorthand,
+                "C:" + c.shorthand,
+                "I:" + i.shorthand,
+                "A:" + a.shorthand
+        ));
+
+        if (e != Exploitability.NOT_DEFINED) {
+            vectorParts.add("E:" + e.shorthand);
+        }
+        if (rl != RemediationLevel.NOT_DEFINED) {
+            vectorParts.add("RL:" + rl.shorthand);
+        }
+        if (rc != ReportConfidence.NOT_DEFINED) {
+            vectorParts.add("RC:" + rc.shorthand);
+        }
+
+        return "(" + String.join("/", vectorParts) + ")";
     }
 
     public AttackVector getAttackVector() {
