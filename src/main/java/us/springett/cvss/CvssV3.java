@@ -458,6 +458,11 @@ public class CvssV3 implements Cvss {
         return Math.round(d * 10.0) / 10.0;
     }
 
+    @Override
+    public String getName() {
+        return VECTOR_PREFIX;
+    }
+
     /**
      * {@inheritDoc}
      */
