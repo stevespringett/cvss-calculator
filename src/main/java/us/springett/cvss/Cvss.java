@@ -61,6 +61,14 @@ public interface Cvss {
     Score calculateScore();
 
     /**
+     * Returns the name of the scoring system
+     *
+     * @return a String of the CVSS scoring system
+     * @since 1.5.0
+     */
+    String getName();
+
+    /**
      * Returns the CVSS vector
      *
      * @return a String of the CVSS vector

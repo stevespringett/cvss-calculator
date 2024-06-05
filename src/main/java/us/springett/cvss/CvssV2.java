@@ -368,6 +368,13 @@ public class CvssV2 implements Cvss {
         return Math.round(d * 10.0) / 10.0;
     }
 
+    @Override
+    public String getName() {
+        // Even if CVSS 2 officially does not have a vector prefix, use that syntax for the name for consistency with
+        // CVSS 3.
+        return "CVSS:2.0";
+    }
+
     /**
      * {@inheritDoc}
      */
