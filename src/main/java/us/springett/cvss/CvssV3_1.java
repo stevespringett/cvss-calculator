@@ -236,6 +236,11 @@ public class CvssV3_1 extends CvssV3 {
         }
     }
 
+    @Override
+    public String getName() {
+        return VECTOR_PREFIX;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -126,7 +126,7 @@ public class CvssV3 implements Cvss {
                 ));
             }
             if (!VECTOR_PREFIX.equals(segments[0])) {
-                throw new MalformedVectorException("Missing \"CVSS:3.0\" prefix");
+                throw new MalformedVectorException("Missing \"" + VECTOR_PREFIX + "\" prefix");
             }
 
             final CvssV3 cvss = new CvssV3();
@@ -456,6 +456,11 @@ public class CvssV3 implements Cvss {
         }
 
         return Math.round(d * 10.0) / 10.0;
+    }
+
+    @Override
+    public String getName() {
+        return VECTOR_PREFIX;
     }
 
     /**
