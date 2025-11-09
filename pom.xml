@@ -44,10 +44,10 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:stevespringett/cvss-calculator.git</connection>
+        <connection>scm:git:https://github.com/stevespringett/cvss-calculator.git</connection>
         <url>https://github.com/stevespringett/cvss-calculator.git</url>
-        <developerConnection>scm:git:git@github.com:stevespringett/cvss-calculator.git</developerConnection>
-        <tag>cvss-calculator-1.1.0</tag>
+        <developerConnection>scm:git:https://github.com/stevespringett/cvss-calculator.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
