@@ -51,7 +51,7 @@ public class CvssV4Test {
         // Actually EQ6=0 because all three conditions are met
         // MacroVector: 000220 -> lookup gives 9.3
         // With proper severity distance calculation using max_composed data
-        assertEquals(9.3, score.getBaseScore(), 0.1);
+        assertEquals(9.3, score.getBaseScore(), 0.001);
     }
 
     @Test
@@ -779,8 +779,8 @@ public class CvssV4Test {
                 Score score = cvss.calculateScore();
                 double actualScore = score.getBaseScore();
 
-                // Allow 0.1 tolerance for floating point comparison
-                if (Math.abs(actualScore - tc.expectedScore) <= 0.1) {
+                // Allow 0.001 tolerance for floating point comparison
+                if (Math.abs(actualScore - tc.expectedScore) <= 0.001) {
                     passed++;
                 } else {
                     failed++;
