@@ -26,7 +26,6 @@ interface Parser<T extends Cvss> {
         if (result == null) {
             throw new MalformedVectorException("Invalid value for metric " + metric + ": " + value);
         }
-
         return result;
     }
 
@@ -35,8 +34,6 @@ interface Parser<T extends Cvss> {
         if (result == null) {
             throw new MalformedVectorException("Invalid value for metric " + metric + ": " + value);
         }
-
         return result;
     }
-
 }

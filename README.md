@@ -6,7 +6,7 @@
 CVSS Calculator
 =====================================
 
-CVSS Calculator is a Java library for calculating CVSSv2, CVSSv3, and CVSSv3.1 scores and vectors,
+CVSS Calculator is a Java library for calculating CVSSv2, CVSSv3, CVSSv3.1, and CVSSv4.0 scores and vectors,
 including support for base scores, impact scores, and exploitability scores.
 
 Compiling
@@ -31,9 +31,27 @@ CvssV3 cvssV3 = new CvssV3()
 Score score = cvssV3.calculateScore();
 ```
 ```java
-// Parses an existing CVSS v2 or v3 vector
+// Parses an existing CVSS v2, v3, v3.1, or v4.0 vector
 Cvss cvss = Cvss.fromVector(vector);
 Score score = cvss.calculateScore();
+```
+
+```java
+// Performs a new calculation using CVSSv4.0
+CvssV4 cvssV4 = new CvssV4()
+    .attackVector(CvssV4.AttackVector.NETWORK)
+    .attackComplexity(CvssV4.AttackComplexity.LOW)
+    .attackRequirements(CvssV4.AttackRequirements.NONE)
+    .privilegesRequired(CvssV4.PrivilegesRequired.HIGH)
+    .userInteraction(CvssV4.UserInteraction.NONE)
+    .confidentialityImpact(CvssV4.Impact.HIGH)
+    .integrityImpact(CvssV4.Impact.HIGH)
+    .availabilityImpact(CvssV4.Impact.HIGH)
+    .subsequentConfidentiality(CvssV4.Impact.NONE)
+    .subsequentIntegrity(CvssV4.Impact.NONE)
+    .subsequentAvailability(CvssV4.Impact.NONE);
+
+Score score = cvssV4.calculateScore();
 ```
 
 Maven Usage

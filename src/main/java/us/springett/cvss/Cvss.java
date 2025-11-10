@@ -40,7 +40,10 @@ public interface Cvss {
         }
 
         final Parser<? extends Cvss> parser;
-        if (vector.startsWith(CvssV3_1.VECTOR_PREFIX)) {
+        if (vector.startsWith(CvssV4.VECTOR_PREFIX)) {
+            parser = new CvssV4.Parser();
+            return parser.parseVector(vector);
+        } else if (vector.startsWith(CvssV3_1.VECTOR_PREFIX)) {
             parser = new CvssV3_1.Parser();
             return parser.parseVector(vector);
         } else if (vector.startsWith(CvssV3.VECTOR_PREFIX)) {
